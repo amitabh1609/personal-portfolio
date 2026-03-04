@@ -194,6 +194,7 @@ export default function Portfolio() {
     page: {
       background: "#04060f",
       minHeight: "100vh",
+      width: "100%",
       color: "#e2e8f8",
       fontFamily: "'DM Mono', 'Courier New', monospace",
       position: "relative",
@@ -298,23 +299,25 @@ export default function Portfolio() {
             </li>
           ))}
           <li>
-            <a href="/resume.pdf" download style={{
+            <a href="/resume.pdf" download target="_blank" rel="noreferrer" style={{
               background: "transparent",
               border: "1px solid #00ffc8",
               color: "#00ffc8", padding: "6px 16px",
               borderRadius: 4, fontSize: "0.75rem",
               letterSpacing: "0.08em", textTransform: "uppercase",
               textDecoration: "none", transition: "background 0.2s",
+              cursor: "pointer", display: "inline-block",
+              zIndex: 1001, position: "relative",
             }}
-              onMouseEnter={e => e.target.style.background = "rgba(0,255,200,0.1)"}
-              onMouseLeave={e => e.target.style.background = "transparent"}
+              onMouseEnter={e => e.currentTarget.style.background = "rgba(0,255,200,0.1)"}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}
             >Resume ↓</a>
           </li>
         </ul>
       </nav>
 
       {/* HERO */}
-      <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
+      <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1, width: "100%" }}>
         <div style={{ ...styles.section, paddingTop: 120 }}>
           <AnimSection delay={0}>
             <div style={styles.sectionLabel}>Available for opportunities</div>
@@ -694,8 +697,9 @@ export default function Portfolio() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body, #root { width: 100%; min-height: 100vh; background: #04060f; }
         html { scroll-behavior: smooth; }
-        * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #04060f; }
         ::-webkit-scrollbar-thumb { background: rgba(0,255,200,0.3); border-radius: 3px; }
