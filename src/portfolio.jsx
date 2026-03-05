@@ -274,9 +274,9 @@ export default function Portfolio() {
       }} />
 
       {/* NAV */}
-      <nav style={styles.nav}>
+      <nav style={styles.nav} className="nav-bar">
         <a href="#home" style={styles.navLogo}>Amitabh Choudhury</a>
-        <ul style={{ ...styles.navLinks, display: menuOpen ? "none" : "flex" }}>
+        <ul style={{ ...styles.navLinks, display: menuOpen ? "none" : "flex" }} className="nav-links">
           {NAV_ITEMS.map(item => (
             <li key={item} style={{ listStyle: "none" }}>
               <button
@@ -318,7 +318,7 @@ export default function Portfolio() {
 
       {/* HERO */}
       <section id="home" style={{ minHeight: "100vh", display: "flex", alignItems: "center", position: "relative", zIndex: 1, width: "100%" }}>
-        <div style={{ ...styles.section, paddingTop: 120 }}>
+        <div style={{ ...styles.section, paddingTop: 120 }} className="section-wrap">
           <AnimSection delay={0}>
             <div style={styles.sectionLabel}>Available for opportunities</div>
           </AnimSection>
@@ -342,7 +342,7 @@ export default function Portfolio() {
             </p>
           </AnimSection>
           <AnimSection delay={0.3}>
-            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <div className="hero-buttons" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
               <button onClick={() => document.getElementById("projects").scrollIntoView({ behavior: "smooth" })} style={{
                 background: "#00ffc8", color: "#04060f",
                 padding: "12px 28px", borderRadius: 4,
@@ -404,7 +404,7 @@ export default function Portfolio() {
             <h2 style={styles.sectionTitle}>About Me</h2>
             <div style={styles.divider} />
           </AnimSection>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
+          <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
             <AnimSection delay={0.1}>
               <p style={{ color: "#a0aec0", lineHeight: 2, fontSize: "0.9rem" }}>{data.bio}</p>
               <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -521,7 +521,7 @@ export default function Portfolio() {
             <h2 style={styles.sectionTitle}>Projects</h2>
             <div style={styles.divider} />
           </AnimSection>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "1.5rem" }}>
+          <div className="projects-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "1.5rem" }}>
             {data.projects.map((proj, i) => (
               <AnimSection key={proj.name} delay={i * 0.08}>
                 <div style={{
@@ -587,7 +587,7 @@ export default function Portfolio() {
             <h2 style={styles.sectionTitle}>Experience</h2>
             <div style={styles.divider} />
           </AnimSection>
-          <div style={{ position: "relative", paddingLeft: "2rem" }}>
+          <div className="experience-section" style={{ position: "relative", paddingLeft: "2rem" }}>
             {/* Timeline line */}
             <div style={{
               position: "absolute", left: 0, top: 8, bottom: 0,
@@ -630,7 +630,7 @@ export default function Portfolio() {
             </p>
           </AnimSection>
           <AnimSection delay={0.1}>
-            <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem" }}>
+            <div className="contact-buttons" style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem" }}>
               <button onClick={copyEmail} style={{
                 background: "#00ffc8", color: "#04060f",
                 border: "none", padding: "14px 32px", borderRadius: 4,
@@ -703,6 +703,53 @@ export default function Portfolio() {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #04060f; }
         ::-webkit-scrollbar-thumb { background: rgba(0,255,200,0.3); border-radius: 3px; }
+
+        /* MOBILE NAV */
+        @media (max-width: 768px) {
+          .nav-links { display: none !important; }
+          .nav-bar { padding: 0 1rem !important; }
+        }
+
+        /* HERO */
+        @media (max-width: 768px) {
+          .hero-section { padding: 100px 1.25rem 60px !important; }
+          .hero-title { font-size: 3rem !important; }
+          .hero-buttons { flex-direction: column !important; gap: 0.75rem !important; }
+          .hero-socials { flex-wrap: wrap !important; gap: 1rem !important; }
+        }
+
+        /* ABOUT GRID */
+        @media (max-width: 768px) {
+          .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+        }
+
+        /* SKILLS GRID */
+        @media (max-width: 768px) {
+          .skills-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; }
+          .filter-bar { gap: 0.5rem !important; }
+          .filter-bar button { padding: 4px 10px !important; font-size: 0.65rem !important; }
+        }
+
+        /* PROJECTS GRID */
+        @media (max-width: 768px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* EXPERIENCE */
+        @media (max-width: 768px) {
+          .experience-section { padding-left: 1.5rem !important; }
+        }
+
+        /* SECTION PADDING */
+        @media (max-width: 768px) {
+          .section-wrap { padding: 70px 1.25rem !important; }
+        }
+
+        /* CONTACT BUTTONS */
+        @media (max-width: 768px) {
+          .contact-buttons { flex-direction: column !important; align-items: center !important; }
+          .contact-buttons a, .contact-buttons button { width: 100% !important; text-align: center !important; }
+        }
       `}</style>
     </div>
   );
