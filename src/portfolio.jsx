@@ -220,7 +220,7 @@ function TerminalCard() {
       </div>
       <div className="terminal-body">
         <div><span className="t-prompt">❯ </span><span className="t-cmd">whoami</span></div>
-        <div style={{ color: "#e2e8f8", paddingLeft: "1rem", marginBottom: "0.25rem" }}>Amitabh Choudhury</div>
+        <div style={{ color: "#f0ebff", paddingLeft: "1rem", marginBottom: "0.25rem" }}>Amitabh Choudhury</div>
 
         <div><span className="t-prompt">❯ </span><span className="t-cmd">cat role.json</span></div>
         <div style={{ paddingLeft: "1rem" }}>
@@ -259,8 +259,8 @@ const S = {
     background: "#0d0117",
     minHeight: "100vh",
     width: "100%",
-    color: "#e2e8f8",
-    fontFamily: "'DM Mono', 'Courier New', monospace",
+    color: "#f0ebff",
+    fontFamily: "'Inter', system-ui, sans-serif",
     position: "relative",
     overflowX: "hidden",
   },
@@ -274,9 +274,9 @@ const S = {
     height: 64,
   },
   navLogo: {
-    fontFamily: "'Georgia', serif", fontStyle: "italic",
-    fontSize: "1.15rem", color: "#00ffc8", letterSpacing: "-0.02em",
-    textDecoration: "none",
+    fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic",
+    fontSize: "1.2rem", color: "#00ffc8", letterSpacing: "-0.01em",
+    textDecoration: "none", fontWeight: 600,
   },
   section: {
     maxWidth: 1100, margin: "0 auto", padding: "100px 2.5rem",
@@ -286,11 +286,12 @@ const S = {
     color: "#00ffc8", marginBottom: "0.9rem",
   },
   sectionTitle: {
-    fontFamily: "'Georgia', serif",
+    fontFamily: "'Playfair Display', Georgia, serif",
     fontSize: "clamp(2rem, 5vw, 3.2rem)",
-    fontWeight: 400, lineHeight: 1.1,
+    fontWeight: 600, lineHeight: 1.1,
     marginBottom: "1.25rem",
-    color: "#e2e8f8",
+    color: "#f0ebff",
+    letterSpacing: "-0.02em",
   },
   divider: {
     width: 48, height: 2,
@@ -563,10 +564,10 @@ export default function Portfolio() {
 
               <AnimSection delay={0.1}>
                 <h1 style={{
-                  fontFamily: "'Georgia', serif",
+                  fontFamily: "'Playfair Display', Georgia, serif",
                   fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                  fontWeight: 400, lineHeight: 0.95,
-                  marginBottom: "1.5rem", color: "#e2e8f8", letterSpacing: "-0.02em",
+                  fontWeight: 600, lineHeight: 0.95,
+                  marginBottom: "1.5rem", color: "#f0ebff", letterSpacing: "-0.03em",
                 }}>
                   I&apos;m Amitabh<br />
                   <span style={{ color: "#00ffc8", fontStyle: "italic" }}>Choudhury</span>
@@ -574,7 +575,7 @@ export default function Portfolio() {
               </AnimSection>
 
               <AnimSection delay={0.2}>
-                <p style={{ color: "#8896b3", fontSize: "0.88rem", marginBottom: "2.5rem", letterSpacing: "0.04em", lineHeight: 1.9, maxWidth: 480 }}>
+                <p style={{ color: "#9d8fbe", fontSize: "0.95rem", marginBottom: "2.5rem", letterSpacing: "0", lineHeight: 1.8, maxWidth: 480, fontFamily: "'Inter', sans-serif" }}>
                   Data Engineer · Machine Learning Engineer · Competitive Programmer<br />
                   Python &nbsp;·&nbsp; SQL &nbsp;·&nbsp; Snowflake &nbsp;·&nbsp; SnapLogic &nbsp;·&nbsp; TensorFlow &nbsp;·&nbsp; Power BI
                 </p>
@@ -594,7 +595,7 @@ export default function Portfolio() {
                   >View Projects →</button>
                   <button onClick={() => scrollTo("contact")} style={{
                     background: "transparent", border: "1px solid rgba(255,255,255,0.14)",
-                    color: "#e2e8f8", padding: "12px 28px", borderRadius: 4,
+                    color: "#f0ebff", padding: "12px 28px", borderRadius: 4,
                     cursor: "pointer", fontSize: "0.78rem",
                     fontFamily: "'DM Mono', monospace",
                     letterSpacing: "0.1em", textTransform: "uppercase",
@@ -617,7 +618,7 @@ export default function Portfolio() {
                     { label: "Email",    href: `https://mail.google.com/mail/?view=cm&to=${data.email}` },
                   ].map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noreferrer" style={{
-                      color: "#8896b3", textDecoration: "none", fontSize: "0.73rem",
+                      color: "#9d8fbe", textDecoration: "none", fontSize: "0.73rem",
                       letterSpacing: "0.1em", textTransform: "uppercase", transition: "color 0.2s",
                       borderBottom: "1px solid rgba(136,150,179,0.25)", paddingBottom: 2,
                     }}
@@ -659,7 +660,7 @@ export default function Portfolio() {
           </AnimSection>
           <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
             <AnimSection delay={0.1}>
-              <p style={{ color: "#a0aec0", lineHeight: 2, fontSize: "0.88rem" }}>{data.bio}</p>
+              <p style={{ color: "#b0a4cc", lineHeight: 1.9, fontSize: "0.95rem", fontFamily: "'Inter', sans-serif" }}>{data.bio}</p>
               <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {[
                   { label: "Role",     val: "Data Engineer @ Caterpillar" },
@@ -670,7 +671,7 @@ export default function Portfolio() {
                 ].map(item => (
                   <div key={item.label} style={{ display: "flex", gap: "1rem", alignItems: "baseline" }}>
                     <span style={{ color: "#00ffc8", fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", minWidth: 80 }}>{item.label}</span>
-                    <span style={{ color: "#8896b3", fontSize: "0.83rem" }}>{item.val}</span>
+                    <span style={{ color: "#9d8fbe", fontSize: "0.83rem" }}>{item.val}</span>
                   </div>
                 ))}
               </div>
@@ -691,8 +692,8 @@ export default function Portfolio() {
                   <div key={item.title} style={{ display: "flex", gap: "1rem", marginBottom: "1.25rem", alignItems: "flex-start" }}>
                     <span style={{ fontSize: "1.1rem", marginTop: 2 }}>{item.emoji}</span>
                     <div>
-                      <div style={{ fontSize: "0.83rem", color: "#e2e8f8", marginBottom: 2 }}>{item.title}</div>
-                      <div style={{ fontSize: "0.75rem", color: "#8896b3", lineHeight: 1.65 }}>{item.desc}</div>
+                      <div style={{ fontSize: "0.83rem", color: "#f0ebff", marginBottom: 2 }}>{item.title}</div>
+                      <div style={{ fontSize: "0.85rem", color: "#9d8fbe", lineHeight: 1.65, fontFamily: "'Inter', sans-serif" }}>{item.desc}</div>
                     </div>
                   </div>
                 ))}
@@ -741,7 +742,7 @@ export default function Portfolio() {
                         onError={e => { const s = document.createElement("span"); s.textContent = "🔷"; s.style.fontSize = "1.8rem"; e.target.replaceWith(s); }} />
                     : <span style={{ fontSize: "1.8rem" }}>{skill.icon}</span>
                   }
-                  <span style={{ fontSize: "0.78rem", color: "#e2e8f8", letterSpacing: "0.03em", textAlign: "center" }}>{skill.name}</span>
+                  <span style={{ fontSize: "0.78rem", color: "#f0ebff", letterSpacing: "0.03em", textAlign: "center" }}>{skill.name}</span>
                 </div>
               </AnimSection>
             ))}
@@ -777,13 +778,13 @@ export default function Portfolio() {
                     <span style={S.tag()}>{proj.type}</span>
                   </div>
                   <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column" }}>
-                    <h3 style={{ fontFamily: "'Georgia', serif", fontSize: "1.2rem", color: "#e2e8f8", marginBottom: "0.6rem" }}>{proj.name}</h3>
-                    <p style={{ color: "#8896b3", fontSize: "0.78rem", lineHeight: 1.75, marginBottom: "1.25rem", flex: 1 }}>{proj.description}</p>
+                    <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.2rem", color: "#f0ebff", marginBottom: "0.6rem" }}>{proj.name}</h3>
+                    <p style={{ color: "#9d8fbe", fontSize: "0.85rem", lineHeight: 1.75, marginBottom: "1.25rem", flex: 1, fontFamily: "'Inter', sans-serif" }}>{proj.description}</p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.25rem" }}>
                       {proj.tech.map(t => (
                         <span key={t} style={{
                           background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
-                          color: "#a0aec0", padding: "2px 8px", borderRadius: 3, fontSize: "0.68rem",
+                          color: "#b0a4cc", padding: "2px 8px", borderRadius: 3, fontSize: "0.68rem",
                         }}>{t}</span>
                       ))}
                     </div>
@@ -832,15 +833,15 @@ export default function Portfolio() {
                   {/* Header */}
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "0.6rem", marginBottom: "0.6rem" }}>
                     <div>
-                      <h3 style={{ fontFamily: "'Georgia', serif", fontSize: "1.15rem", color: "#e2e8f8", marginBottom: "0.2rem" }}>{item.role}</h3>
-                      <span style={{ color: "#8896b3", fontSize: "0.8rem" }}>@ {item.company}</span>
+                      <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.15rem", color: "#f0ebff", marginBottom: "0.2rem" }}>{item.role}</h3>
+                      <span style={{ color: "#9d8fbe", fontSize: "0.8rem" }}>@ {item.company}</span>
                     </div>
                     <span className={`exp-date-badge${item.current ? " current" : ""}`}>
                       {item.current && <span className="exp-dot-live" />}
                       {item.start} — {item.end}
                     </span>
                   </div>
-                  <p style={{ color: "#8896b3", fontSize: "0.82rem", lineHeight: 1.75 }}>{item.desc}</p>
+                  <p style={{ color: "#9d8fbe", fontSize: "0.9rem", lineHeight: 1.75, fontFamily: "'Inter', sans-serif" }}>{item.desc}</p>
                 </div>
               </AnimSection>
             ))}
@@ -857,7 +858,7 @@ export default function Portfolio() {
               Open to the <span style={{ fontStyle: "italic", color: "#00ffc8" }}>right opportunity</span>
             </h2>
             <div style={{ ...S.divider, margin: "0 auto 2rem" }} />
-            <p style={{ color: "#8896b3", fontSize: "0.88rem", lineHeight: 1.85, maxWidth: 460, margin: "0 auto 2.5rem" }}>
+            <p style={{ color: "#9d8fbe", fontSize: "0.95rem", lineHeight: 1.85, maxWidth: 460, margin: "0 auto 2.5rem", fontFamily: "'Inter', sans-serif" }}>
               I&apos;m currently open to full-time roles in Data Engineering and ML Engineering. If you&apos;re working on something interesting in data infrastructure, forecasting, or applied ML, I&apos;d love to hear about it.
             </p>
           </AnimSection>
@@ -867,7 +868,7 @@ export default function Portfolio() {
             <div style={{ marginBottom: "2.5rem" }}>
               <div style={{ fontSize: "0.68rem", color: "#4a5568", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.6rem" }}>reach me at</div>
               <a href={`https://mail.google.com/mail/?view=cm&to=${data.email}`} target="_blank" rel="noreferrer" style={{
-                fontFamily: "'Georgia', serif", fontStyle: "italic",
+                fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic",
                 fontSize: "clamp(1.1rem, 3vw, 1.5rem)",
                 color: "#00ffc8", textDecoration: "none",
                 borderBottom: "1px solid rgba(0,255,200,0.3)", paddingBottom: 2,
@@ -894,7 +895,7 @@ export default function Portfolio() {
               >{copied ? "✓ Copied!" : "Copy Email"}</button>
               <a href={`https://mail.google.com/mail/?view=cm&to=${data.email}`} target="_blank" rel="noreferrer" style={{
                 background: "transparent", border: "1px solid rgba(255,255,255,0.14)",
-                color: "#e2e8f8", padding: "13px 32px", borderRadius: 4,
+                color: "#f0ebff", padding: "13px 32px", borderRadius: 4,
                 fontSize: "0.82rem", letterSpacing: "0.1em", textTransform: "uppercase",
                 textDecoration: "none", transition: "border-color 0.2s",
               }}
@@ -915,7 +916,7 @@ export default function Portfolio() {
                 { label: "GFG",      href: data.gfg,       icon: "gfg" },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="contact-icon-btn">
-                  <span style={{ fontFamily: "'Georgia', serif", fontStyle: "italic", fontSize: "0.85rem", color: "#00ffc8" }}>{s.icon}</span>
+                  <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", fontSize: "0.85rem", color: "#00ffc8" }}>{s.icon}</span>
                   {s.label}
                 </a>
               ))}
@@ -933,7 +934,7 @@ export default function Portfolio() {
         display: "flex", alignItems: "center", justifyContent: "center",
         gap: "1.5rem", flexWrap: "wrap",
       }}>
-        <span style={{ fontFamily: "'Georgia', serif", fontStyle: "italic", color: "#4a5568" }}>Amitabh Choudhury</span>
+        <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic", color: "#4a5568" }}>Amitabh Choudhury</span>
         <span>·</span>
         <span>Built with React + Vite</span>
         <span>·</span>
