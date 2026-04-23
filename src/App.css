@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,6 +20,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #f0ebff;
+}
+
+/* Playfair on all native headings */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 ::-webkit-scrollbar { width: 5px; }
@@ -141,7 +148,7 @@ body {
   line-height: 2;
 }
 .t-prompt { color: #00ffc8; }
-.t-cmd    { color: #e2e8f8; }
+.t-cmd    { color: #f0ebff; }
 .t-key    { color: #a78bfa; }
 .t-val    { color: #fbbf24; }
 .t-str    { color: #34d399; }
