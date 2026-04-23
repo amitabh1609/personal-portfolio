@@ -5,7 +5,7 @@
 html, body, #root {
   width: 100%;
   min-height: 100vh;
-  background: #04060f;
+  background: #0d0117;
   scroll-behavior: smooth;
 }
 
@@ -23,7 +23,7 @@ body {
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #04060f; }
+::-webkit-scrollbar-track { background: #0d0117; }
 ::-webkit-scrollbar-thumb { background: rgba(0,255,200,0.25); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,255,200,0.45); }
 
@@ -56,7 +56,7 @@ body {
   position: fixed;
   top: 64px;
   left: 0; right: 0;
-  background: rgba(4, 6, 15, 0.98);
+  background: rgba(13, 1, 23, 0.98);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0,255,200,0.1);
   flex-direction: column;
@@ -276,4 +276,65 @@ body {
 
 @media (max-width: 480px) {
   .contact-icon-btn { font-size: 0.7rem; padding: 9px 14px; }
+}
+
+/* ── CUSTOM CURSOR ── */
+* { cursor: none !important; }
+
+#cur-dot {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ffc8;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+  box-shadow: 0 0 8px #00ffc8;
+}
+#cur-ring {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,255,200,0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+}
+#cur-dot.hovering {
+  width: 12px;
+  height: 12px;
+  opacity: 0.5;
+  background: #a78bfa;
+  box-shadow: 0 0 14px #a78bfa;
+}
+#cur-ring.hovering {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(167,139,250,0.6);
+  box-shadow: 0 0 18px rgba(167,139,250,0.2);
+}
+#cur-dot.hidden, #cur-ring.hidden { opacity: 0; }
+
+/* ── SPARKLE TRAIL ── */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9997;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: sparkle-fly 0.65s ease-out forwards;
+}
+@keyframes sparkle-fly {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.1); }
+}
+
+/* hide custom cursor on touch devices */
+@media (hover: none) {
+  * { cursor: auto !important; }
+  #cur-dot, #cur-ring { display: none; }
 }
