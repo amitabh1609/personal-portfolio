@@ -256,7 +256,7 @@ function TerminalCard() {
 ───────────────────────────────────────── */
 const S = {
   page: {
-    background: "#04060f",
+    background: "#0d0117",
     minHeight: "100vh",
     width: "100%",
     color: "#e2e8f8",
@@ -266,7 +266,7 @@ const S = {
   },
   nav: {
     position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-    background: "rgba(4,6,15,0.88)",
+    background: "rgba(13,1,23,0.88)",
     backdropFilter: "blur(20px)",
     borderBottom: "1px solid rgba(0,255,200,0.08)",
     padding: "0 2.5rem",
@@ -323,11 +323,90 @@ export default function Portfolio() {
   const [statsActive, setStatsActive] = useState(false);
   const statsRef = useRef(null);
 
-  /* mouse glow */
+  /* mouse glow + state */
   useEffect(() => {
     const h = (e) => setMousePos({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", h);
     return () => window.removeEventListener("mousemove", h);
+  }, []);
+
+  /* ── custom cursor + sparkle trail ── */
+  useEffect(() => {
+    const dot  = document.getElementById("cur-dot");
+    const ring = document.getElementById("cur-ring");
+    if (!dot || !ring) return;
+
+    let dotX = window.innerWidth / 2,  dotY = window.innerHeight / 2;
+    let ringX = dotX, ringY = dotY;
+    let lastSparkle = 0;
+    let rafId;
+
+    const SPARKLE_COLORS = ["#00ffc8", "#a78bfa", "#ffffff", "#7ee8fa", "#c4b5fd"];
+    const HOVER_TARGETS  = "a, button, .terminal-card, [class*='card'], [class*='btn']";
+
+    function onMouseMove(e) {
+      dotX = e.clientX;
+      dotY = e.clientY;
+      dot.style.left = dotX + "px";
+      dot.style.top  = dotY + "px";
+
+      /* sparkle — throttled to every 35ms */
+      const now = Date.now();
+      if (now - lastSparkle > 35) {
+        lastSparkle = now;
+        const count = Math.random() < 0.4 ? 2 : 1;
+        for (let i = 0; i < count; i++) spawnSparkle(e.clientX, e.clientY);
+      }
+    }
+
+    function spawnSparkle(x, y) {
+      const el = document.createElement("div");
+      el.className = "sparkle";
+      const size = Math.random() * 4 + 2;
+      el.style.cssText = `
+        left:${x}px; top:${y}px;
+        width:${size}px; height:${size}px;
+        background:${SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)]};
+        --dx:${(Math.random() - 0.5) * 44}px;
+        --dy:${-(Math.random() * 38 + 8)}px;
+        box-shadow: 0 0 ${size * 2}px currentColor;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 680);
+    }
+
+    function animateRing() {
+      ringX += (dotX - ringX) * 0.12;
+      ringY += (dotY - ringY) * 0.12;
+      ring.style.left = ringX + "px";
+      ring.style.top  = ringY + "px";
+      rafId = requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    function onHoverIn()  { dot.classList.add("hovering");    ring.classList.add("hovering"); }
+    function onHoverOut() { dot.classList.remove("hovering"); ring.classList.remove("hovering"); }
+    function onLeave()    { dot.classList.add("hidden");      ring.classList.add("hidden"); }
+    function onEnter()    { dot.classList.remove("hidden");   ring.classList.remove("hidden"); }
+
+    /* attach hover listeners via delegation */
+    function onDocMove(e) {
+      const target = e.target.closest(HOVER_TARGETS);
+      if (target) onHoverIn(); else onHoverOut();
+    }
+
+    window.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mousemove", onDocMove);
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mousemove", onDocMove);
+      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseenter", onEnter);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   /* active nav */
@@ -382,20 +461,24 @@ export default function Portfolio() {
   return (
     <div style={S.page}>
 
-      {/* Cursor glow */}
+      {/* Custom cursor elements */}
+      <div id="cur-dot" />
+      <div id="cur-ring" />
+
+      {/* Large ambient glow that follows mouse */}
       <div style={{
-        position: "fixed", width: 650, height: 650, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0,255,200,0.045) 0%, transparent 70%)",
+        position: "fixed", width: 700, height: 700, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(100,50,180,0.07) 0%, rgba(0,255,200,0.03) 40%, transparent 70%)",
         pointerEvents: "none", zIndex: 1,
-        left: mousePos.x - 325, top: mousePos.y - 325,
-        transition: "left 0.1s, top 0.1s",
+        left: mousePos.x - 350, top: mousePos.y - 350,
+        transition: "left 0.12s ease, top 0.12s ease",
       }} />
 
       {/* Background grid */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none",
-        backgroundImage: `linear-gradient(rgba(0,255,200,0.018) 1px, transparent 1px),
-                          linear-gradient(90deg, rgba(0,255,200,0.018) 1px, transparent 1px)`,
+        backgroundImage: `linear-gradient(rgba(167,139,250,0.04) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(167,139,250,0.04) 1px, transparent 1px)`,
         backgroundSize: "60px 60px",
       }} />
 
@@ -500,7 +583,7 @@ export default function Portfolio() {
               <AnimSection delay={0.3}>
                 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                   <button onClick={() => scrollTo("projects")} style={{
-                    background: "#00ffc8", color: "#04060f",
+                    background: "#00ffc8", color: "#0d0117",
                     padding: "12px 28px", borderRadius: 4, border: "none", cursor: "pointer",
                     fontSize: "0.78rem", fontFamily: "'DM Mono', monospace",
                     letterSpacing: "0.1em", textTransform: "uppercase",
@@ -633,7 +716,7 @@ export default function Portfolio() {
                 <button key={cat} onClick={() => setFilterCat(cat)} style={{
                   background: filterCat === cat ? "#00ffc8" : "transparent",
                   border: `1px solid ${filterCat === cat ? "#00ffc8" : "rgba(255,255,255,0.1)"}`,
-                  color: filterCat === cat ? "#04060f" : "#8896b3",
+                  color: filterCat === cat ? "#0d0117" : "#8896b3",
                   padding: "5px 14px", borderRadius: 4, cursor: "pointer",
                   fontSize: "0.72rem", letterSpacing: "0.08em", textTransform: "uppercase",
                   fontFamily: "'DM Mono', monospace", transition: "all 0.2s",
@@ -800,7 +883,7 @@ export default function Portfolio() {
           <AnimSection delay={0.15}>
             <div className="contact-buttons" style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
               <button onClick={copyEmail} style={{
-                background: "#00ffc8", color: "#04060f",
+                background: "#00ffc8", color: "#0d0117",
                 border: "none", padding: "13px 32px", borderRadius: 4,
                 fontSize: "0.82rem", letterSpacing: "0.1em", textTransform: "uppercase",
                 fontFamily: "'DM Mono', monospace", fontWeight: 600,
