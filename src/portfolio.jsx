@@ -51,6 +51,7 @@ const data = {
     {
       name: "GitHub Archive Lakehouse",
       type: "Data Engineering / Lakehouse",
+      highlight: "▸ 7.4M+ events ingested · 36 Soda Core quality checks · 5 documented failure scenarios",
       description: "A Bronze/Silver/Gold Apache Iceberg lakehouse ingesting 7.4M+ GitHub Archive events. Manifest-tracked, crash-resumable pipeline with Silver-layer deduplication, 15 event-type payload parsing, and quarantine routing. 36 Soda Core data quality checks gate every Dagster run; Iceberg time-travel and live schema evolution demonstrated on a 3.8M-row table.",
       tech: ["Apache Iceberg", "DuckDB", "Dagster", "Soda Core", "MinIO", "Streamlit", "Docker"],
       color: "#00ffc8",
@@ -60,6 +61,7 @@ const data = {
     {
       name: "Text-to-SQL with Guardrails",
       type: "AI / Safety",
+      highlight: "▸ 50-question adversarial benchmark · 10/10 injection tests blocked · 6 Architecture Decision Records",
       description: "NL-to-SQL system with a multi-layer safety stack: sqlparse AST guardrails hard-block DDL/DML and SQL injection; all execution runs inside PostgreSQL SET TRANSACTION READ ONLY. Evaluated on a 50-question adversarial benchmark — passed all executable queries, blocked all 10 injection tests. Back-translation hallucination detection via MiniLM-L6 cosine similarity.",
       tech: ["FastAPI", "PostgreSQL 15", "Claude Sonnet", "instructor", "Pydantic v2", "sqlparse", "sentence-transformers", "Docker"],
       color: "#a78bfa",
@@ -69,38 +71,23 @@ const data = {
     {
       name: "Evaluated RAG Pipeline",
       type: "AI / RAG",
+      highlight: "▸ 50-question benchmark · RAGAS CI gate · 3-config ablation study · Live on Render",
       description: "Hybrid retrieval pipeline (dense BGE-large + BM25 via RRF k=60) with cross-encoder reranking over crawled Snowflake docs, dbt docs, and 200 dbt Discourse threads. 50-question adversarial benchmark with CI eval gate in GitHub Actions that fails the build on RAGAS faithfulness regression. Live demo on Render.",
       tech: ["BGE-large-en-v1.5", "BM25/RRF", "Qdrant", "RAGAS", "Claude Sonnet", "Langfuse", "GitHub Actions", "Docker"],
       color: "#48CAE4",
       emoji: "🔍",
       link: "https://github.com/amitabh1609",
+      demoLink: "https://github.com/amitabh1609",
     },
     {
-      name: "Gradient Descent",
-      type: "ML / Math",
-      description: "A complete walkthrough of how Gradient Descent works — from basics to intuitive visualizations. Implemented in multiple forms, from basic loops to 3D visualizations, to truly understand the why behind every step.",
-      tech: ["Python", "NumPy", "Matplotlib", "Jupyter"],
-      color: "#00ffc8",
-      emoji: "📉",
-      link: "https://github.com/amitabh1609/Gradient_Descent",
-    },
-    {
-      name: "Sentiment Analysis",
-      type: "ML / NLP",
-      description: "Hate speech detection in tweets — classifying racist or sexist sentiment from a labelled dataset of 31,962 tweets. Built NLP pipelines to predict labels on unseen tweet data.",
-      tech: ["Python", "NLP", "scikit-learn", "Pandas"],
-      color: "#C77DFF",
-      emoji: "🐦",
-      link: "https://github.com/amitabh1609/Sentiment-Analysis-Using-Twitter-Tweets",
-    },
-    {
-      name: "Facial Emotion Recognition",
-      type: "ML / CNN",
-      description: "Facial expression detection using CNNs trained on image data. Classifies 7 emotions — angry, disgust, fear, happy, neutral, sad, surprise — built with Keras and TensorFlow on Kaggle.",
-      tech: ["Python", "TensorFlow", "Keras", "CNN"],
-      color: "#FF6B6B",
-      emoji: "🤖",
-      link: "https://github.com/amitabh1609/Facial-Emotion-Recognition",
+      name: "Warehouse Demand Forecasting",
+      type: "ML / Time-Series",
+      description: "Random Forest demand-forecasting prototype built on multi-year warehouse parts usage data at Caterpillar. Time-based train/test split to prevent leakage; surfaced seasonal demand patterns that fed procurement-planning discussions. Built during the Systems Data Support Analyst role — findings carried forward into the Data Engineer scope.",
+      tech: ["Python", "pandas", "scikit-learn", "Matplotlib"],
+      color: "#a78bfa",
+      emoji: "📦",
+      note: "Internal · Caterpillar",
+      noLink: true,
     },
   ],
   experience: [
@@ -145,14 +132,22 @@ const data = {
     { icon: "🥇", title: "Centurion Hackathon", desc: "Team Lead · 13th out of 500+ participants (National Level)" },
   ],
   stats: [
-    { value: 40,   suffix: "+",  label: "ETL Pipelines",    decimals: 0 },
-    { value: 1923, suffix: "",   label: "LeetCode Rating",  decimals: 0 },
-    { value: 8.55, suffix: "",   label: "CGPA",             decimals: 2 },
-    { value: 88,   suffix: "%",  label: "Model Accuracy",   decimals: 0 },
+    { value: 25,   suffix: "+", label: "Production Pipelines",  decimals: 0 },
+    { value: 1923, suffix: "",  label: "LeetCode Rating",        decimals: 0 },
+    { value: 50,   suffix: "",  label: "Adversarial Benchmarks", decimals: 0 },
+    { value: 36,   suffix: "",  label: "Quality Checks",         decimals: 0 },
   ],
+  bioParagraphs: [
+    "Most data systems don't fail because someone wrote bad code. They fail because nobody thought carefully enough about what happens when the data is wrong, the query is ambiguous, or the pipeline silently drops rows at 3am.",
+    "I'm a Data Engineer at Caterpillar, Bengaluru. I own 25+ production Snowflake/dbt pipelines serving ~75 stakeholders, with refresh cadences as tight as every 20 minutes.",
+    "The work I'm most proud of: a 2,025-line SAS-to-Snowflake migration across 5 data domains — zero-defect cutover, validated row by row before we touched production.",
+    "Outside work I build things adversarially. A hybrid RAG pipeline with a CI gate that blocks deploys on faithfulness regression. A Text-to-SQL engine with AST guardrails and a 50-question injection benchmark. An Iceberg lakehouse with 36 automated quality checks gating every pipeline run.",
+  ],
+  pullQuote: "❝ 'It works' and 'it's safe to run on real data' are two completely different statements. ❞",
 };
 
-const NAV_ITEMS = ["Home", "About", "Experience", "Skills", "Projects", "Achievements", "Contact"];
+const NAV_ITEMS = ["Home", "About", "Experience", "Skills", "Projects", "Open to Roles", "Achievements", "Contact"];
+const navId = (item) => item === "Open to Roles" ? "open-to-roles" : item.toLowerCase();
 
 /* ─────────────────────────────────────────
    HOOKS
@@ -235,7 +230,7 @@ function TerminalCard() {
             <span className="t-key">&quot;role&quot;</span><span className="t-muted">: </span><span className="t-str">&quot;Data Engineer&quot;</span><span className="t-muted">,</span>
           </div>
           <div style={{ paddingLeft: "1rem" }}>
-            <span className="t-key">&quot;pipelines&quot;</span><span className="t-muted">: </span><span className="t-val">40</span><span className="t-muted">,</span>
+            <span className="t-key">&quot;pipelines&quot;</span><span className="t-muted">: </span><span className="t-val">25</span><span className="t-muted">,</span>
           </div>
           <div style={{ paddingLeft: "1rem" }}>
             <span className="t-key">&quot;leetcode&quot;</span><span className="t-muted">: </span><span className="t-val">1923</span><span className="t-muted">,</span>
@@ -415,11 +410,14 @@ export default function Portfolio() {
 
   /* active nav */
   useEffect(() => {
-    const secs = NAV_ITEMS.map(n => document.getElementById(n.toLowerCase()));
+    const idToNav = { "open-to-roles": "Open to Roles" };
+    const secs = NAV_ITEMS.map(n => document.getElementById(navId(n)));
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting)
-          setActiveNav(e.target.id.charAt(0).toUpperCase() + e.target.id.slice(1));
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          setActiveNav(idToNav[id] || (id.charAt(0).toUpperCase() + id.slice(1)));
+        }
       });
     }, { threshold: 0.35 });
     secs.forEach(s => s && obs.observe(s));
@@ -455,7 +453,7 @@ export default function Portfolio() {
   };
 
   const scrollTo = (id) => {
-    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(navId(id))?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
@@ -565,6 +563,22 @@ export default function Portfolio() {
                 </div>
               </AnimSection>
 
+              <AnimSection delay={0.05}>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.6rem",
+                  marginBottom: "1.25rem", fontFamily: "'DM Mono', monospace",
+                  fontSize: "0.78rem", color: "#9d8fbe",
+                }}>
+                  <span style={{
+                    width: 7, height: 7, borderRadius: "50%", background: "#00ffc8",
+                    display: "inline-block", animation: "pulse-exp 1.5s ease-in-out infinite",
+                    flexShrink: 0,
+                  }} />
+                  Currently: Data Engineer @ Caterpillar ·{" "}
+                  <span style={{ color: "#00ffc8" }}>Open to new roles</span>
+                </div>
+              </AnimSection>
+
               <AnimSection delay={0.1}>
                 <h1 style={{
                   fontFamily: "'Playfair Display', Georgia, serif",
@@ -663,7 +677,24 @@ export default function Portfolio() {
           </AnimSection>
           <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
             <AnimSection delay={0.1}>
-              <p style={{ color: "#b0a4cc", lineHeight: 1.9, fontSize: "0.95rem", fontFamily: "'Inter', sans-serif" }}>{data.bio}</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "2rem" }}>
+                {data.bioParagraphs.map((para, i) => (
+                  <p key={i} style={{ color: "#b0a4cc", lineHeight: 1.9, fontSize: "0.95rem", fontFamily: "'Inter', sans-serif" }}>{para}</p>
+                ))}
+                <p style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "clamp(1rem, 2.2vw, 1.2rem)",
+                  color: "#00ffc8",
+                  textAlign: "center",
+                  lineHeight: 1.7,
+                  padding: "1.25rem 1.5rem",
+                  borderLeft: "2px solid rgba(0,255,200,0.3)",
+                  background: "rgba(0,255,200,0.04)",
+                  borderRadius: "0 8px 8px 0",
+                  marginTop: "0.5rem",
+                }}>{data.pullQuote}</p>
+              </div>
               <div style={{ marginTop: "2rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {[
                   { label: "Role",     val: "Data Engineer @ Caterpillar" },
@@ -833,7 +864,23 @@ export default function Portfolio() {
                     <span style={S.tag()}>{proj.type}</span>
                   </div>
                   <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column" }}>
-                    <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.2rem", color: "#f0ebff", marginBottom: "0.6rem" }}>{proj.name}</h3>
+                    <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "1.2rem", color: "#f0ebff", marginBottom: "0.5rem" }}>{proj.name}</h3>
+                    {proj.highlight && (
+                      <div style={{
+                        fontFamily: "'DM Mono', monospace", fontSize: "0.7rem",
+                        color: "#00ffc8", marginBottom: "0.75rem", lineHeight: 1.6,
+                        letterSpacing: "0.02em",
+                      }}>{proj.highlight}</div>
+                    )}
+                    {proj.note && (
+                      <div style={{
+                        display: "inline-block", marginBottom: "0.75rem",
+                        background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.25)",
+                        color: "#a78bfa", padding: "2px 10px", borderRadius: 4,
+                        fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase",
+                        fontFamily: "'DM Mono', monospace", width: "fit-content",
+                      }}>{proj.note}</div>
+                    )}
                     <p style={{ color: "#9d8fbe", fontSize: "0.85rem", lineHeight: 1.75, marginBottom: "1.25rem", flex: 1, fontFamily: "'Inter', sans-serif" }}>{proj.description}</p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.25rem" }}>
                       {proj.tech.map(t => (
@@ -843,20 +890,89 @@ export default function Portfolio() {
                         }}>{t}</span>
                       ))}
                     </div>
-                    <a href={proj.link} target="_blank" rel="noreferrer" style={{
-                      color: "#00ffc8", fontSize: "0.73rem", textDecoration: "none",
-                      letterSpacing: "0.08em", textTransform: "uppercase",
-                      borderBottom: "1px solid rgba(0,255,200,0.28)", paddingBottom: 1,
-                      width: "fit-content", transition: "opacity 0.2s",
-                    }}
-                      onMouseEnter={e => e.target.style.opacity = ".7"}
-                      onMouseLeave={e => e.target.style.opacity = "1"}
-                    >View Code →</a>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                      {proj.demoLink && (
+                        <a href={proj.demoLink} target="_blank" rel="noreferrer" style={{
+                          background: "#00ffc8", color: "#0d0117",
+                          padding: "7px 18px", borderRadius: 4, fontSize: "0.72rem",
+                          fontFamily: "'DM Mono', monospace", letterSpacing: "0.08em",
+                          textTransform: "uppercase", textDecoration: "none",
+                          fontWeight: 600, transition: "box-shadow 0.2s",
+                        }}
+                          onMouseEnter={e => e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,255,200,0.35)"}
+                          onMouseLeave={e => e.currentTarget.style.boxShadow = ""}
+                        >Live Demo →</a>
+                      )}
+                      {!proj.noLink && (
+                        <a href={proj.link} target="_blank" rel="noreferrer" style={{
+                          color: "#00ffc8", fontSize: "0.73rem", textDecoration: "none",
+                          letterSpacing: "0.08em", textTransform: "uppercase",
+                          borderBottom: "1px solid rgba(0,255,200,0.28)", paddingBottom: 1,
+                          width: "fit-content", transition: "opacity 0.2s", alignSelf: "center",
+                        }}
+                          onMouseEnter={e => e.target.style.opacity = ".7"}
+                          onMouseLeave={e => e.target.style.opacity = "1"}
+                        >View Code →</a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </AnimSection>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══ OPEN TO ROLES ══ */}
+      <section id="open-to-roles" style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ ...S.section, textAlign: "center" }} className="section-wrap">
+          <AnimSection>
+            <div style={S.sectionLabel}>What I&apos;m looking for</div>
+            <h2 style={S.sectionTitle}>Open to Roles</h2>
+            <div style={{ ...S.divider, margin: "0 auto 2.5rem" }} />
+          </AnimSection>
+          <AnimSection delay={0.1}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center", marginBottom: "2rem" }}>
+              {["Data Engineer", "Analytics Engineer", "AI / Data Engineer", "ML Engineer (data-infra focused)"].map(role => (
+                <span key={role} style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "0.8rem", letterSpacing: "0.06em",
+                  border: "1px solid #00ffc8", color: "#00ffc8",
+                  padding: "8px 20px", borderRadius: 4,
+                  background: "rgba(0,255,200,0.05)",
+                }}>{role}</span>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center", marginBottom: "2.5rem" }}>
+              {["Bengaluru", "Singapore", "Dubai", "Switzerland", "Remote"].map(loc => (
+                <span key={loc} style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "0.72rem", letterSpacing: "0.06em",
+                  border: "1px solid rgba(167,139,250,0.4)", color: "#9d8fbe",
+                  padding: "5px 14px", borderRadius: 20,
+                  background: "rgba(167,139,250,0.06)",
+                }}>{loc}</span>
+              ))}
+            </div>
+            <p style={{
+              color: "#4a5568", fontSize: "0.82rem", letterSpacing: "0.08em",
+              fontFamily: "'DM Mono', monospace", marginBottom: "2rem",
+            }}>
+              Snowflake · dbt · real-time data systems · LLM-augmented data tooling
+            </p>
+            <a href={`mailto:${data.email}`} style={{
+              display: "inline-block",
+              border: "1px solid #00ffc8", color: "#00ffc8",
+              padding: "12px 28px", borderRadius: 4,
+              fontFamily: "'DM Mono', monospace",
+              fontSize: "0.78rem", letterSpacing: "0.1em",
+              textTransform: "uppercase", textDecoration: "none",
+              transition: "background 0.2s, color 0.2s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#00ffc8"; e.currentTarget.style.color = "#0d0117"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#00ffc8"; }}
+            >{data.email}</a>
+          </AnimSection>
         </div>
       </section>
 
