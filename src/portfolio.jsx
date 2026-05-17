@@ -907,11 +907,11 @@ export default function Portfolio() {
 
       {/* ACHIEVEMENTS */}
       <section id="achievements" style={{ position: "relative", zIndex: 1, background: "rgba(255,255,255,0.01)", borderTop: "1px solid rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-        <div style={styles.section}>
+        <div style={S.section} className="section-wrap">
           <AnimSection>
-            <div style={styles.sectionLabel}>Recognition</div>
-            <h2 style={styles.sectionTitle}>Achievements</h2>
-            <div style={styles.divider} />
+            <div style={S.sectionLabel}>Recognition</div>
+            <h2 style={S.sectionTitle}>Achievements</h2>
+            <div style={S.divider} />
           </AnimSection>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "1rem" }}>
             {data.achievements.map((item, i) => (
