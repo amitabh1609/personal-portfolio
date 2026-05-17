@@ -152,7 +152,7 @@ const data = {
   ],
 };
 
-const NAV_ITEMS = ["Home", "About", "Skills", "Projects", "Experience", "Achievements", "Contact"];
+const NAV_ITEMS = ["Home", "About", "Experience", "Skills", "Projects", "Achievements", "Contact"];
 
 /* ─────────────────────────────────────────
    HOOKS
@@ -706,6 +706,58 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* ══ EXPERIENCE ══ */}
+      <section id="experience" style={{ position: "relative", zIndex: 1 }}>
+        <div style={S.section} className="section-wrap">
+          <AnimSection>
+            <div style={S.sectionLabel}>My journey</div>
+            <h2 style={S.sectionTitle}>Experience</h2>
+            <div style={S.divider} />
+          </AnimSection>
+          <div className="experience-section" style={{ position: "relative", paddingLeft: "2rem" }}>
+            <div style={{
+              position: "absolute", left: 0, top: 8, bottom: 0,
+              width: 1, background: "linear-gradient(to bottom, #00ffc8, rgba(0,255,200,0.06))",
+            }} />
+            {data.experience.map((item, i) => (
+              <AnimSection key={i} delay={i * 0.12}>
+                <div style={{ position: "relative", marginBottom: "3rem" }}>
+                  {/* Dot */}
+                  <div style={{
+                    position: "absolute", left: -34, top: 6,
+                    width: item.current ? 12 : 10, height: item.current ? 12 : 10,
+                    borderRadius: "50%",
+                    background: item.current ? "#00ffc8" : "rgba(0,255,200,0.45)",
+                    boxShadow: item.current ? "0 0 14px rgba(0,255,200,0.7)" : "0 0 8px rgba(0,255,200,0.35)",
+                  }} />
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "0.6rem", flexWrap: "wrap" }}>
+                    <span style={{
+                      display: "inline-flex", alignItems: "center", gap: "0.4rem",
+                      background: item.current ? "rgba(0,255,200,0.1)" : "rgba(0,255,200,0.06)",
+                      border: `1px solid ${item.current ? "rgba(0,255,200,0.3)" : "rgba(0,255,200,0.15)"}`,
+                      color: "#00ffc8", fontSize: "0.7rem", letterSpacing: "0.08em",
+                      padding: "2px 10px", borderRadius: 20, whiteSpace: "nowrap",
+                    }}>
+                      {item.current && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ffc8", animation: "pulse-exp 1.5s ease-in-out infinite", display: "inline-block" }} />}
+                      {item.year}
+                    </span>
+                    <h3 style={{ fontFamily: "'Georgia', serif", fontSize: "1.2rem", color: "#e2e8f8" }}>{item.role}</h3>
+                    <span style={{ color: "#8896b3", fontSize: "0.8rem" }}>@ {item.company}</span>
+                  </div>
+                  {item.bullets ? (
+                    <ul style={{ color: "#8896b3", fontSize: "0.85rem", lineHeight: 1.75, paddingLeft: "1.1rem", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                      {item.bullets.map((b, j) => <li key={j}>{b}</li>)}
+                    </ul>
+                  ) : (
+                    <p style={{ color: "#8896b3", fontSize: "0.85rem", lineHeight: 1.7 }}>{item.desc}</p>
+                  )}
+                </div>
+              </AnimSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ══ SKILLS ══ */}
       <section id="skills" style={{ position: "relative", zIndex: 1 }}>
         <div style={S.section} className="section-wrap">
@@ -801,58 +853,6 @@ export default function Portfolio() {
                       onMouseLeave={e => e.target.style.opacity = "1"}
                     >View Code →</a>
                   </div>
-                </div>
-              </AnimSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ EXPERIENCE ══ */}
-      <section id="experience" style={{ position: "relative", zIndex: 1 }}>
-        <div style={S.section} className="section-wrap">
-          <AnimSection>
-            <div style={S.sectionLabel}>My journey</div>
-            <h2 style={S.sectionTitle}>Experience</h2>
-            <div style={S.divider} />
-          </AnimSection>
-          <div className="experience-section" style={{ position: "relative", paddingLeft: "2rem" }}>
-            <div style={{
-              position: "absolute", left: 0, top: 8, bottom: 0,
-              width: 1, background: "linear-gradient(to bottom, #00ffc8, rgba(0,255,200,0.06))",
-            }} />
-            {data.experience.map((item, i) => (
-              <AnimSection key={i} delay={i * 0.12}>
-                <div style={{ position: "relative", marginBottom: "3rem" }}>
-                  {/* Dot */}
-                  <div style={{
-                    position: "absolute", left: -34, top: 6,
-                    width: item.current ? 12 : 10, height: item.current ? 12 : 10,
-                    borderRadius: "50%",
-                    background: item.current ? "#00ffc8" : "rgba(0,255,200,0.45)",
-                    boxShadow: item.current ? "0 0 14px rgba(0,255,200,0.7)" : "0 0 8px rgba(0,255,200,0.35)",
-                  }} />
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "1rem", marginBottom: "0.6rem", flexWrap: "wrap" }}>
-                    <span style={{
-                      display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                      background: item.current ? "rgba(0,255,200,0.1)" : "rgba(0,255,200,0.06)",
-                      border: `1px solid ${item.current ? "rgba(0,255,200,0.3)" : "rgba(0,255,200,0.15)"}`,
-                      color: "#00ffc8", fontSize: "0.7rem", letterSpacing: "0.08em",
-                      padding: "2px 10px", borderRadius: 20, whiteSpace: "nowrap",
-                    }}>
-                      {item.current && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ffc8", animation: "pulse-exp 1.5s ease-in-out infinite", display: "inline-block" }} />}
-                      {item.year}
-                    </span>
-                    <h3 style={{ fontFamily: "'Georgia', serif", fontSize: "1.2rem", color: "#e2e8f8" }}>{item.role}</h3>
-                    <span style={{ color: "#8896b3", fontSize: "0.8rem" }}>@ {item.company}</span>
-                  </div>
-                  {item.bullets ? (
-                    <ul style={{ color: "#8896b3", fontSize: "0.85rem", lineHeight: 1.75, paddingLeft: "1.1rem", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                      {item.bullets.map((b, j) => <li key={j}>{b}</li>)}
-                    </ul>
-                  ) : (
-                    <p style={{ color: "#8896b3", fontSize: "0.85rem", lineHeight: 1.7 }}>{item.desc}</p>
-                  )}
                 </div>
               </AnimSection>
             ))}
