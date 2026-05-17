@@ -56,7 +56,7 @@ const data = {
       tech: ["Apache Iceberg", "DuckDB", "Dagster", "Soda Core", "MinIO", "Streamlit", "Docker"],
       color: "#00ffc8",
       emoji: "🏔️",
-      link: "https://github.com/amitabh1609",
+      link: "https://github.com/amitabh1609/AfterV1",
     },
     {
       name: "Text-to-SQL with Guardrails",
@@ -66,7 +66,7 @@ const data = {
       tech: ["FastAPI", "PostgreSQL 15", "Claude Sonnet", "instructor", "Pydantic v2", "sqlparse", "sentence-transformers", "Docker"],
       color: "#a78bfa",
       emoji: "🛡️",
-      link: "https://github.com/amitabh1609",
+      link: "https://github.com/amitabh1609/Text_To_SQL_Guardrails",
     },
     {
       name: "Evaluated RAG Pipeline",
