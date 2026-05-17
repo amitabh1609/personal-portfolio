@@ -76,8 +76,8 @@ const data = {
       tech: ["BGE-large-en-v1.5", "BM25/RRF", "Qdrant", "RAGAS", "Claude Sonnet", "Langfuse", "GitHub Actions", "Docker"],
       color: "#48CAE4",
       emoji: "🔍",
-      link: "https://github.com/amitabh1609",
-      demoLink: "https://github.com/amitabh1609",
+      link: "https://github.com/amitabh1609/Evaluated_Rag_Snowflake_DBT",
+      demoLink: "https://github.com/amitabh1609/Evaluated_Rag_Snowflake_DBT",
     },
     {
       name: "Warehouse Demand Forecasting",
