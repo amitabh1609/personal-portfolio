@@ -38,10 +38,11 @@ const data = {
     "I turn messy supply-chain data into systems that are safe to run in production — pipelines that don't silently drop rows, models that know when they're wrong, and LLM apps with guardrails you can actually trust.",
 
   pipeline: [
-    { ico: "📥", name: "Ingest", desc: "SnapLogic · Streams · GitHub Archive", c: "#22d3ee" },
-    { ico: "🔧", name: "Transform", desc: "dbt · SCD-2 · Iceberg Bronze→Gold", c: "#34d399" },
-    { ico: "🧠", name: "Model", desc: "LightGBM · RAG · Cortex Analyst", c: "#a78bfa" },
-    { ico: "🚀", name: "Serve", desc: "FastAPI · Power BI · Streamlit", c: "#fbbf24" },
+    { ico: "📥", name: "Collect", desc: "sources · APIs · warehouse", c: "#22d3ee" },
+    { ico: "🔍", name: "Explore", desc: "EDA · pandas · statistics", c: "#34d399" },
+    { ico: "🧬", name: "Engineer", desc: "features · transforms · scaling", c: "#a78bfa" },
+    { ico: "🧠", name: "Model", desc: "LightGBM · scikit-learn · tuning", c: "#fbbf24" },
+    { ico: "📊", name: "Evaluate", desc: "cross-val · metrics · drift", c: "#22d3ee" },
   ],
 
   metrics: [
@@ -493,7 +494,7 @@ export default function Portfolio() {
                   <span className="d" style={{ background: "#ff5f57" }} />
                   <span className="d" style={{ background: "#febc2e" }} />
                   <span className="d" style={{ background: "#28c840" }} />
-                  <span className="label">data_platform.pipeline</span>
+                  <span className="label">amitabh@caterpillar</span>
                 </div>
                 <div className="pipe-flow">
                   {data.pipeline.map((s, i) => (
