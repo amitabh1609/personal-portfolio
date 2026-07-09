@@ -2,39 +2,68 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 /* ─────────────────────────────────────────
+   ICON HELPERS
+───────────────────────────────────────── */
+const DEV = (name) => `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${name}.svg`;
+const ICONS = {
+  snowflake: "https://www.vectorlogo.zone/logos/snowflake/snowflake-icon.svg",
+  dbt: "/icons/dbt.svg",
+  snaplogic: "https://www.snaplogic.com/media-kit/Logocombo_SnapLogic_RGB.svg",
+  powerbi: "https://www.vectorlogo.zone/logos/microsoft_powerbi/microsoft_powerbi-icon.svg",
+  sklearn: "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg",
+  python: DEV("python/python-original"),
+  cpp: DEV("cplusplus/cplusplus-original"),
+  pandas: DEV("pandas/pandas-original"),
+  numpy: DEV("numpy/numpy-original"),
+  fastapi: DEV("fastapi/fastapi-original"),
+  docker: DEV("docker/docker-original"),
+  github: DEV("github/github-original"),
+  git: DEV("git/git-original"),
+  postgres: DEV("postgresql/postgresql-original"),
+  jupyter: DEV("jupyter/jupyter-original"),
+};
+
+/* ─────────────────────────────────────────
    DATA
 ───────────────────────────────────────── */
 const data = {
-  name: "Amitabh Choudhury",
-  role: "Data Engineer",
-  company: "Caterpillar",
-  tagline:
-    "I build production data platforms and LLM systems that are safe to run on real data — Snowflake, dbt, Cortex, RAG, and rigorously evaluated GenAI.",
   email: "choudhryamitabh@gmail.com",
   github: "https://github.com/amitabh1609",
   linkedin: "https://www.linkedin.com/in/amitabh-choudhury/",
   leetcode: "https://leetcode.com/amitabhchoudhury19999/",
   gfg: "https://auth.geeksforgeeks.org/user/amitabhchoudhury19999",
 
+  roles: ["Data Engineer", "Data Scientist", "MLOps Builder", "GenAI Evaluator"],
+  tagline:
+    "I turn messy supply-chain data into systems that are safe to run in production — pipelines that don't silently drop rows, models that know when they're wrong, and LLM apps with guardrails you can actually trust.",
+
+  pipeline: [
+    { ico: "📥", name: "Ingest", desc: "SnapLogic · Streams · GitHub Archive", c: "#22d3ee" },
+    { ico: "🔧", name: "Transform", desc: "dbt · SCD-2 · Iceberg Bronze→Gold", c: "#34d399" },
+    { ico: "🧠", name: "Model", desc: "LightGBM · RAG · Cortex Analyst", c: "#a78bfa" },
+    { ico: "🚀", name: "Serve", desc: "FastAPI · Power BI · Streamlit", c: "#fbbf24" },
+  ],
+
+  metrics: [
+    { value: 25, suffix: "+", label: "Production pipelines owned", decimals: 0 },
+    { value: 7.4, suffix: "M+", label: "Events ingested in lakehouse", decimals: 1 },
+    { value: 69, suffix: "%", label: "Table reduction, SAS migration", decimals: 0 },
+    { value: 1923, suffix: "", label: "LeetCode max rating (Knight)", decimals: 0 },
+  ],
+
   about: [
     "Most data systems don't fail because someone wrote bad code. They fail because nobody thought carefully enough about what happens when the data is wrong, the query is ambiguous, or the pipeline silently drops rows at 3am.",
-    "I'm a Data Engineer at Caterpillar, Bengaluru — promoted from Systems Data Support Analyst within 12 months. I own 25+ production ETL/ELT pipelines across SnapLogic, dbt, and Snowflake with refresh SLAs as tight as 20 minutes, powering Power BI dashboards that drive daily shipment-allocation decisions for ~75 supply-chain stakeholders.",
-    "Most recently I architected and shipped LPAgent — an LLM-powered anomaly detection & alerting platform on Streamlit-in-Snowflake, the first production LLM application in PSLD at Caterpillar. Cortex Analyst generates anomaly rule SQL, cutting rule deployment from a multi-day manual process to same-day self-service, governed by a three-tier approval workflow with a full audit trail.",
-    "Outside work I build GenAI systems adversarially: a Text-to-SQL engine with AST guardrails and a 50-question injection benchmark, a hybrid RAG pipeline whose CI gate blocks deploys on faithfulness regression, and a quantile forecasting platform with drift-triggered automated retraining.",
+    "I'm a Data Engineer at Caterpillar in Bengaluru — promoted from Systems Data Support Analyst within 12 months. I own 25+ production ETL/ELT pipelines across SnapLogic, dbt, and Snowflake with refresh SLAs as tight as 20 minutes, feeding Power BI dashboards that drive daily shipment-allocation decisions for ~75 supply-chain stakeholders.",
+    "Recently I shipped LPAgent — the first production LLM-powered application in PSLD at Caterpillar. Cortex Analyst generates anomaly-detection rule SQL behind a three-tier approval workflow, cutting rule deployment from a multi-day manual process to same-day self-service.",
+    "Outside work I build data-science and GenAI systems adversarially, because I'd rather find the failure mode myself than have production find it for me.",
   ],
   pullQuote:
     "“'It works' and 'it's safe to run on real data' are two completely different statements.”",
-  facts: [
-    { label: "Currently", value: "Data Engineer @ Caterpillar, Bengaluru" },
-    { label: "Education", value: "B.Tech AI & ML — M.S. Ramaiah University (2020–2024)" },
-    { label: "CGPA", value: "8.55 / 10" },
-    { label: "Focus", value: "Data platforms · GenAI evaluation · MLOps" },
-  ],
-  stats: [
-    { value: 25, suffix: "+", label: "Production pipelines", decimals: 0 },
-    { value: 69, suffix: "%", label: "Table reduction, SAS migration", decimals: 0 },
-    { value: 1923, suffix: "", label: "LeetCode max rating", decimals: 0 },
-    { value: 0.86, suffix: "", label: "RAGAS faithfulness", decimals: 2 },
+
+  principles: [
+    { ico: "🛡️", title: "Fail loud, fail early", desc: "36 Soda Core checks gating every run, CI gates that block deploys on quality regression — bad data should never reach a dashboard silently." },
+    { ico: "📐", title: "Evaluate, don't vibe", desc: "50-question adversarial benchmarks, RAGAS faithfulness gates, walk-forward CV. If I can't measure it, I don't ship it." },
+    { ico: "♻️", title: "Reproducible by default", desc: "Versioned feature stores, MLflow registries with promotion gates, manifest-tracked crash-resumable pipelines." },
   ],
 
   experience: [
@@ -46,11 +75,10 @@ const data = {
       note: "Promoted from Systems Data Support Analyst within 12 months",
       bullets: [
         "Architected and shipped the LPAgent Anomaly Detection & Alerting Platform (Streamlit-in-Snowflake) — the first production LLM-powered application in PSLD at Caterpillar; Cortex Analyst generates anomaly rule SQL, cutting rule deployment from a multi-day manual process to same-day self-service",
-        "Implemented a three-tier (L1/L2/L3) rule approval workflow with Snowflake-native RBAC and real-time role resolution; soft-update audit trail captures all role changes with attribution and reason; reviewer email notifications replatformed from Dataiku to a native Snowflake trigger",
+        "Implemented a three-tier (L1/L2/L3) rule approval workflow with Snowflake-native RBAC and real-time role resolution; soft-update audit trail captures every role change with attribution and reason; reviewer notifications replatformed from Dataiku to a native Snowflake trigger",
         "Led the MineStar MSU SAS-to-Snowflake migration end-to-end: refactored 2,025 lines of legacy SAS into 32 optimised Snowflake objects (69% table reduction) across 5 data domains covering ~5,500 global parts; verified cutover with row-level parity reconciliation",
-        "Own 25+ production ETL/ELT pipelines (SnapLogic, dbt, Snowflake) with refresh SLAs as tight as 20 minutes, powering Power BI dashboards that drive daily shipment-allocation decisions for ~75 supply-chain stakeholders",
+        "Own 25+ production ETL/ELT pipelines (SnapLogic, dbt, Snowflake) with refresh SLAs as tight as 20 minutes, powering Power BI dashboards for ~75 supply-chain stakeholders",
         "Designed a Goods Receipt dbt pipeline with SCD Type-2 history at supplier/PO grain, enabling point-in-time audit and invoice dispute resolution; 13 data-contract tests; Dynamic Tables auto-refresh every 30 minutes",
-        "Audited a Snowflake Cortex NL-to-SQL prototype, identified critical safety gaps, and open-sourced a hardened rebuild with AST-based guardrails and hallucination detection",
       ],
     },
     {
@@ -60,7 +88,7 @@ const data = {
       current: false,
       bullets: [
         "Supported production Snowflake/SnapLogic/Tidal pipelines for warehouse, procurement, and finance stakeholders; owned data-quality triage and ad hoc analytical SQL feeding procurement-planning decisions",
-        "Initiated a multi-year warehouse parts usage analysis (Python, pandas) to surface seasonal demand patterns; built a Random Forest forecasting prototype with time-based train/test split — methodology carried forward into the Data Engineer role",
+        "Initiated a multi-year warehouse parts-usage analysis (Python, pandas) to surface seasonal demand patterns; built a Random Forest forecasting prototype with a time-based split — methodology carried forward into the Data Engineer role",
       ],
     },
     {
@@ -78,18 +106,22 @@ const data = {
     {
       name: "Text-to-SQL with Guardrails & Hallucination Detection",
       type: "AI / Safety",
-      metrics: "▸ 100% guardrail block rate · 10/10 injection tests · 50-question adversarial benchmark · zero unsafe queries",
+      ico: "🛡️",
+      accent: "#a78bfa",
+      metrics: "100% guardrail block rate · 10/10 injection tests · 50-question adversarial benchmark",
       description:
-        "NL-to-SQL over a supply chain PostgreSQL database. sqlparse AST guardrails (token-type checking, not regex) hard-block DDL/DML, injection, and catalog access; all execution runs inside PostgreSQL SET TRANSACTION READ ONLY as a database-enforced fallback. Back-translation hallucination detection via MiniLM-L6 cosine similarity; multi-query validation surfaces SQL divergence to the user; 6 Architecture Decision Records.",
+        "NL-to-SQL over a supply-chain PostgreSQL database. sqlparse AST guardrails (token-type checking, not regex) hard-block DDL/DML, injection, and catalog access; execution runs inside PostgreSQL SET TRANSACTION READ ONLY as a database-enforced fallback. Back-translation hallucination detection via MiniLM-L6 cosine similarity; 6 Architecture Decision Records.",
       tech: ["FastAPI", "PostgreSQL 15", "Claude Sonnet", "sqlparse", "sentence-transformers", "Docker"],
       link: "https://github.com/amitabh1609/Text_To_SQL_Guardrails",
     },
     {
       name: "Supply Chain Demand Forecasting MLOps",
       type: "ML / MLOps",
-      metrics: "▸ 500 SKUs · 34.9% WAPE · 82.6% interval coverage · 46% over seasonal-naive baseline",
+      ico: "📈",
+      accent: "#34d399",
+      metrics: "500 SKUs · 34.9% WAPE · 82.6% interval coverage · 46% over baseline",
       description:
-        "End-to-end forecasting platform for 500 spare-parts SKUs, rebuilt from a Caterpillar prototype. QuantileLightGBM (P10/P50/P90) via walk-forward CV; versioned Parquet feature store with 33 hand-crafted features. MLflow registry with a promotion gate (candidate must beat production WAPE by >2%); Evidently AI separates data drift from concept drift; GitHub Actions triggers automated retraining on drift alerts; FastAPI serving returns quantiles with model-version headers.",
+        "End-to-end forecasting platform for 500 spare-parts SKUs, rebuilt from a Caterpillar prototype. QuantileLightGBM (P10/P50/P90) via walk-forward CV; versioned Parquet feature store with 33 features. MLflow registry with a promotion gate; Evidently AI separates data drift from concept drift; GitHub Actions triggers automated retraining on drift alerts.",
       tech: ["LightGBM", "MLflow", "Evidently AI", "FastAPI", "Streamlit", "Docker", "GitHub Actions"],
       link: "https://github.com/amitabh1609/SupplyChain_Demand_Forecasting_MLOPS",
       demo: "https://supplychain-forecast-mlops.streamlit.app",
@@ -97,65 +129,132 @@ const data = {
     {
       name: "Hybrid RAG System with Evaluation Suite",
       type: "AI / RAG",
-      metrics: "▸ 0.86 RAGAS faithfulness vs 0.31 baseline · CI eval gate · 3-config ablation · live on Render",
+      ico: "🔍",
+      accent: "#22d3ee",
+      metrics: "0.86 RAGAS faithfulness vs 0.31 baseline · CI eval gate · live on Render",
       description:
-        "Production RAG pipeline over Snowflake and dbt documentation. Dense retrieval (BGE-large, Qdrant) fused with BM25 via RRF (k=60); BGE cross-encoder reranker; Claude Haiku query rewriter; answers grounded with cited source chunks. 50-question adversarial benchmark across 4 tiers; CI eval gate fails the build on faithfulness regression; all retrievals traced in Langfuse.",
-      tech: ["BGE-large", "BM25/RRF", "Qdrant", "RAGAS", "Claude Sonnet", "Langfuse", "GitHub Actions", "Docker"],
+        "Production RAG pipeline over Snowflake and dbt docs. Dense retrieval (BGE-large, Qdrant) fused with BM25 via RRF (k=60); BGE cross-encoder reranker; Claude Haiku query rewriter; answers grounded with cited chunks. 50-question adversarial benchmark across 4 tiers; CI eval gate fails the build on faithfulness regression; all retrievals traced in Langfuse.",
+      tech: ["BGE-large", "BM25/RRF", "Qdrant", "RAGAS", "Claude Sonnet", "Langfuse", "Docker"],
       link: "https://github.com/amitabh1609/Evaluated_Rag_Snowflake_DBT",
       demo: "https://evaluated-rag-snowflake-dbt.onrender.com",
     },
     {
       name: "GitHub Archive Lakehouse",
       type: "Data Engineering",
-      metrics: "▸ 7.4M+ events ingested · 36 Soda Core quality checks · time-travel on a 3.8M-row table",
+      ico: "🧊",
+      accent: "#fbbf24",
+      metrics: "7.4M+ events · 36 Soda Core quality checks · time-travel on 3.8M rows",
       description:
-        "Bronze/Silver/Gold Iceberg lakehouse ingesting 7.4M+ GitHub Archive events. Manifest-tracked, crash-resumable pipeline; Silver deduplicates by event ID, parses 15 event-type payloads, and routes ~600 malformed rows to quarantine with error reasons. 36 Soda Core checks gate each Dagster run; CI fails on >3 check failures; Software-Defined Assets provide full lineage; 5 documented failure scenarios with exact recovery commands.",
+        "Bronze/Silver/Gold Iceberg lakehouse ingesting 7.4M+ GitHub Archive events. Manifest-tracked, crash-resumable pipeline; Silver deduplicates by event ID, parses 15 event-type payloads, quarantines ~600 malformed rows with reasons. 36 Soda Core checks gate each Dagster run; Software-Defined Assets provide full lineage; 5 documented failure/recovery scenarios.",
       tech: ["Apache Iceberg", "DuckDB", "Dagster", "Soda Core", "MinIO", "Streamlit", "Docker"],
       link: "https://github.com/amitabh1609/AfterV1",
     },
   ],
 
-  skills: [
+  skillGroups: [
+    {
+      category: "Data Engineering",
+      color: "#22d3ee",
+      skills: [
+        { name: "Snowflake", img: ICONS.snowflake },
+        { name: "dbt", img: ICONS.dbt },
+        { name: "SnapLogic", img: ICONS.snaplogic },
+        { name: "Apache Iceberg", emoji: "🧊" },
+        { name: "DuckDB", emoji: "🦆" },
+        { name: "Dagster", emoji: "⚙️" },
+        { name: "Soda Core", emoji: "🧪" },
+        { name: "Tidal", emoji: "⏱️" },
+      ],
+    },
     {
       category: "AI / GenAI",
-      items: ["LLM application development", "RAG", "Prompt engineering", "Hallucination detection", "Embeddings & semantic search", "Qdrant", "BM25 / RRF hybrid search", "Evals · RAGAS", "Langfuse", "Claude Sonnet API", "sentence-transformers (BGE)"],
+      color: "#a78bfa",
+      skills: [
+        { name: "Claude API", emoji: "✳️" },
+        { name: "RAG", emoji: "🔗" },
+        { name: "Qdrant", emoji: "🎯" },
+        { name: "RAGAS", emoji: "📊" },
+        { name: "Langfuse", emoji: "🔭" },
+        { name: "BM25 / RRF", emoji: "🔀" },
+        { name: "BGE embeddings", emoji: "🤗" },
+        { name: "Guardrails", emoji: "🛡️" },
+      ],
     },
     {
       category: "ML / MLOps",
-      items: ["LightGBM (LambdaMART, Quantile)", "MLflow", "Evidently AI", "scikit-learn", "KS-test · PSI · quantile regression", "Time-series forecasting", "FastAPI"],
+      color: "#34d399",
+      skills: [
+        { name: "LightGBM", emoji: "🌳" },
+        { name: "scikit-learn", img: ICONS.sklearn },
+        { name: "MLflow", emoji: "📈" },
+        { name: "Evidently AI", emoji: "📉" },
+        { name: "FastAPI", img: ICONS.fastapi },
+        { name: "Quantile regression", emoji: "📐" },
+      ],
     },
     {
-      category: "Data Engineering",
-      items: ["Snowflake (Cortex, Dynamic Tables, Tasks, Streams)", "dbt (SCD-2, snapshots, tests)", "ETL/ELT & orchestration", "Data modeling", "Apache Iceberg", "DuckDB", "Dagster", "Soda Core", "SnapLogic", "Tidal"],
+      category: "Languages & Analytics",
+      color: "#fbbf24",
+      skills: [
+        { name: "Python", img: ICONS.python },
+        { name: "SQL", emoji: "💾" },
+        { name: "C++", img: ICONS.cpp },
+        { name: "Pandas", img: ICONS.pandas },
+        { name: "NumPy", img: ICONS.numpy },
+        { name: "Power BI", img: ICONS.powerbi },
+      ],
     },
-    { category: "Languages", items: ["Python", "SQL", "C++"] },
-    { category: "Analytics & BI", items: ["Pandas", "Power BI"] },
-    { category: "Infra & Dev", items: ["Docker", "GitHub Actions CI/CD", "Git", "PostgreSQL 15"] },
+    {
+      category: "Infra & Dev",
+      color: "#22d3ee",
+      skills: [
+        { name: "Docker", img: ICONS.docker },
+        { name: "GitHub Actions", img: ICONS.github },
+        { name: "Git", img: ICONS.git },
+        { name: "PostgreSQL", img: ICONS.postgres },
+        { name: "Jupyter", img: ICONS.jupyter },
+      ],
+    },
+  ],
+
+  marquee: [
+    { name: "Snowflake", img: ICONS.snowflake },
+    { name: "dbt", img: ICONS.dbt },
+    { name: "Python", img: ICONS.python },
+    { name: "Dagster", emoji: "⚙️" },
+    { name: "Apache Iceberg", emoji: "🧊" },
+    { name: "DuckDB", emoji: "🦆" },
+    { name: "FastAPI", img: ICONS.fastapi },
+    { name: "LightGBM", emoji: "🌳" },
+    { name: "MLflow", emoji: "📈" },
+    { name: "Docker", img: ICONS.docker },
+    { name: "PostgreSQL", img: ICONS.postgres },
+    { name: "Power BI", img: ICONS.powerbi },
+    { name: "Qdrant", emoji: "🎯" },
+    { name: "Claude API", emoji: "✳️" },
   ],
 
   achievements: [
-    { icon: "🏆", title: "LeetCode Knight", desc: "Max rating 1923 · global rank 283/29,865 in Weekly Contest 366 (top 1%)" },
-    { icon: "⚡", title: "Codeforces Expert", desc: "Max rating 1800 · @amitabh1208" },
-    { icon: "⭐", title: "CodeChef 4★", desc: "Max rating 1711 · @amitabh1208" },
-    { icon: "🥇", title: "Centurion Hackathon", desc: "Team Lead · 13th of 500+ participants (National Level)" },
+    { ico: "🏆", title: "LeetCode Knight", desc: "Max rating 1923 · global rank 283/29,865 in Weekly Contest 366 (top 1%)" },
+    { ico: "⚡", title: "Codeforces Expert", desc: "Max rating 1800 · @amitabh1208" },
+    { ico: "⭐", title: "CodeChef 4★", desc: "Max rating 1711 · @amitabh1208" },
+    { ico: "🥇", title: "Centurion Hackathon", desc: "Team Lead · 13th of 500+ participants (National Level)" },
   ],
-
   education: {
     degree: "B.Tech in Artificial Intelligence & Machine Learning",
     school: "M.S. Ramaiah University of Applied Sciences, Bengaluru",
     meta: "2020 — Apr 2024 · CGPA 8.55/10",
   },
 
-  roles: ["Data Engineer", "Analytics Engineer", "AI / Data Engineer", "ML Engineer (data-infra)"],
+  openRoles: ["Data Engineer", "Data Scientist", "Analytics Engineer", "ML / MLOps Engineer"],
   locations: ["Bengaluru", "Singapore", "Dubai", "Switzerland", "Remote"],
 };
 
-const SECTIONS = [
+const NAV = [
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
-  { id: "achievements", label: "Achievements" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -192,8 +291,30 @@ function useCountUp(target, decimals, active) {
   return val;
 }
 
+function useTypewriter(words, { type = 90, del = 45, hold = 1600 } = {}) {
+  const [text, setText] = useState("");
+  const [i, setI] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  useEffect(() => {
+    const word = words[i % words.length];
+    if (!deleting && text === word) {
+      const t = setTimeout(() => setDeleting(true), hold);
+      return () => clearTimeout(t);
+    }
+    if (deleting && text === "") {
+      const t = setTimeout(() => { setDeleting(false); setI((n) => n + 1); }, del);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => {
+      setText(deleting ? word.slice(0, text.length - 1) : word.slice(0, text.length + 1));
+    }, deleting ? del : type);
+    return () => clearTimeout(t);
+  }, [text, deleting, i, words, type, del, hold]);
+  return text;
+}
+
 /* ─────────────────────────────────────────
-   SUB-COMPONENTS
+   SHARED
 ───────────────────────────────────────── */
 function Reveal({ children, delay = 0 }) {
   const [ref, inView] = useInView();
@@ -204,315 +325,379 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
-function Section({ id, num, title, children }) {
+function SecHead({ kicker, title, sub }) {
   return (
-    <section id={id} className="section">
-      <Reveal>
-        <div className="section-head">
-          <span className="section-num">{num}</span>
-          <h2 className="section-title">{title}</h2>
-        </div>
-      </Reveal>
-      {children}
-    </section>
+    <Reveal>
+      <div className="sec-head">
+        <div className="sec-kicker">{kicker}</div>
+        <h2 className="sec-title">{title}</h2>
+        {sub && <p className="sec-sub">{sub}</p>}
+      </div>
+    </Reveal>
   );
 }
 
-function StatCounter({ value, suffix, label, decimals, active }) {
-  const count = useCountUp(value, decimals, active);
+function SkillLogo({ skill }) {
+  const [failed, setFailed] = useState(false);
+  if (skill.img && !failed) {
+    return (
+      <span className="skill-logo">
+        <img src={skill.img} alt={skill.name} loading="lazy" onError={() => setFailed(true)} />
+      </span>
+    );
+  }
+  return <span className="skill-logo"><span className="emo">{skill.emoji || "🔷"}</span></span>;
+}
+
+function MarqueeItem({ item }) {
+  const [failed, setFailed] = useState(false);
   return (
-    <div>
-      <div className="stat-num">
-        {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}
-      </div>
-      <div className="stat-lbl">{label}</div>
+    <span className="marquee-item">
+      {item.img && !failed
+        ? <img src={item.img} alt={item.name} loading="lazy" onError={() => setFailed(true)} />
+        : <span className="emo">{item.emoji || "🔷"}</span>}
+      {item.name}
+    </span>
+  );
+}
+
+function Metric({ value, suffix, label, decimals, active }) {
+  const n = useCountUp(value, decimals, active);
+  return (
+    <div className="metric-card">
+      <div className="metric-num">{decimals > 0 ? n.toFixed(decimals) : Math.floor(n)}{suffix}</div>
+      <div className="metric-lbl">{label}</div>
     </div>
   );
 }
 
 /* ─────────────────────────────────────────
-   MAIN COMPONENT
+   MAIN
 ───────────────────────────────────────── */
 export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState("about");
+  const [active, setActive] = useState("about");
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: -400, y: -400 });
   const [showTop, setShowTop] = useState(false);
-  const [statsActive, setStatsActive] = useState(false);
-  const statsRef = useRef(null);
+  const [mouse, setMouse] = useState({ x: -500, y: -500 });
+  const [metricsOn, setMetricsOn] = useState(false);
+  const metricsRef = useRef(null);
+  const typed = useTypewriter(data.roles);
 
-  /* spotlight follows mouse */
   useEffect(() => {
-    const h = (e) => setMousePos({ x: e.clientX, y: e.clientY });
+    const h = (e) => setMouse({ x: e.clientX, y: e.clientY });
     window.addEventListener("mousemove", h);
     return () => window.removeEventListener("mousemove", h);
   }, []);
 
-  /* active section tracking */
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) setActiveSection(e.target.id); });
-      },
-      { rootMargin: "-30% 0px -55% 0px" }
-    );
-    SECTIONS.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) obs.observe(el);
-    });
-    return () => obs.disconnect();
-  }, []);
-
-  /* scroll-to-top visibility */
-  useEffect(() => {
-    const h = () => setShowTop(window.scrollY > 480);
+    const h = () => {
+      setScrolled(window.scrollY > 20);
+      setShowTop(window.scrollY > 520);
+    };
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  /* stats count-up trigger */
   useEffect(() => {
-    if (!statsRef.current) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setStatsActive(true); },
-      { threshold: 0.4 }
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
+      { rootMargin: "-35% 0px -55% 0px" }
     );
-    obs.observe(statsRef.current);
+    NAV.forEach((n) => { const el = document.getElementById(n.id); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!metricsRef.current) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setMetricsOn(true); },
+      { threshold: 0.35 }
+    );
+    obs.observe(metricsRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
   const copyEmail = () => {
     navigator.clipboard.writeText(data.email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  const gmail = `https://mail.google.com/mail/?view=cm&to=${data.email}`;
 
   return (
     <div>
-      {/* Mouse spotlight */}
+      <div className="bg-grid" />
+      <div className="bg-glow a" />
+      <div className="bg-glow b" />
       <div
         className="spotlight"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,180,84,0.055), transparent 75%)`,
-        }}
+        style={{ background: `radial-gradient(560px circle at ${mouse.x}px ${mouse.y}px, rgba(34,211,238,0.06), transparent 72%)` }}
       />
 
-      <div className="layout">
-        {/* ══ SIDEBAR ══ */}
-        <aside className="sidebar">
-          <div>
-            <div className="status-badge">
-              <span className="status-dot" />
-              Open to new roles
+      {/* ══ NAV ══ */}
+      <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+        <a className="nav-logo" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+          <span className="bracket">{"{"}</span>amitabh<span className="bracket">{"}"}</span>
+        </a>
+        <div className="nav-links">
+          {NAV.map((n) => (
+            <button key={n.id} className={active === n.id ? "active" : ""} onClick={() => scrollTo(n.id)}>
+              {n.label}
+            </button>
+          ))}
+          <a className="nav-resume" href="/resume.pdf" download target="_blank" rel="noreferrer">Résumé ↓</a>
+        </div>
+        <button className={`nav-toggle${menuOpen ? " open" : ""}`} onClick={() => setMenuOpen((o) => !o)} aria-label="Menu">
+          <span /><span /><span />
+        </button>
+      </nav>
+      <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
+        {NAV.map((n) => <button key={n.id} onClick={() => scrollTo(n.id)}>{n.label}</button>)}
+        <a href="/resume.pdf" download target="_blank" rel="noreferrer">Résumé ↓</a>
+      </div>
+
+      <div className="wrap" id="top">
+        {/* ══ HERO ══ */}
+        <header className="shell hero">
+          <div className="hero-grid">
+            <div>
+              <div className="hero-badge"><span className="hero-dot" /> Open to Data Engineering & Data Science roles</div>
+              <h1 className="hero-name">Amitabh <span className="grad">Choudhury</span></h1>
+              <div className="hero-role">
+                <span className="tw">{typed}</span><span className="caret" />
+              </div>
+              <p className="hero-tagline">{data.tagline}</p>
+              <div className="hero-cta">
+                <button className="btn-solid" onClick={() => scrollTo("projects")}>View Projects →</button>
+                <a className="btn-ghost" href="/resume.pdf" download target="_blank" rel="noreferrer">Download Résumé ↓</a>
+              </div>
+              <div className="hero-socials">
+                <a href={data.github} target="_blank" rel="noreferrer">GitHub</a>
+                <a href={data.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+                <a href={data.leetcode} target="_blank" rel="noreferrer">LeetCode</a>
+                <a href={data.gfg} target="_blank" rel="noreferrer">GFG</a>
+                <a href={gmail} target="_blank" rel="noreferrer">Email</a>
+              </div>
             </div>
 
-            <h1 className="hero-name">
-              Amitabh<br /><span className="accent">Choudhury</span>
-            </h1>
-            <p className="hero-role">
-              {data.role} <span>@ {data.company}</span>
-            </p>
-            <p className="hero-tagline">{data.tagline}</p>
-
-            <a className="resume-btn" href="/resume.pdf" download target="_blank" rel="noreferrer">
-              Resume ↓
-            </a>
-
-            <nav className="side-nav" aria-label="Section navigation">
-              {SECTIONS.map((s) => (
-                <button
-                  key={s.id}
-                  className={activeSection === s.id ? "active" : ""}
-                  onClick={() => scrollTo(s.id)}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </nav>
+            {/* Animated pipeline */}
+            <div>
+              <div className="pipe-card">
+                <div className="pipe-bar">
+                  <span className="d" style={{ background: "#ff5f57" }} />
+                  <span className="d" style={{ background: "#febc2e" }} />
+                  <span className="d" style={{ background: "#28c840" }} />
+                  <span className="label">data_platform.pipeline</span>
+                </div>
+                <div className="pipe-flow">
+                  {data.pipeline.map((s, i) => (
+                    <div key={s.name}>
+                      <div className="pipe-stage" style={{ "--d": `${i * 0.8}s` }}>
+                        <span className="pipe-ico" style={{ background: `${s.c}18`, borderColor: `${s.c}55` }}>{s.ico}</span>
+                        <div className="pipe-meta">
+                          <div className="pipe-name">{s.name}</div>
+                          <div className="pipe-desc">{s.desc}</div>
+                        </div>
+                      </div>
+                      {i < data.pipeline.length - 1 && <div className="pipe-connector" />}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+        </header>
 
-          <div className="side-foot">
-            <div className="side-snippet">
-              <div><span className="k">shipped</span>: <span className="v">&quot;LLM anomaly platform @ Caterpillar&quot;</span></div>
-              <div><span className="k">stack</span>: <span className="v">&quot;Snowflake · dbt · Cortex · RAG&quot;</span></div>
-              <div><span className="k">open_to_work</span>: <span className="v">true</span></div>
-            </div>
-            <div className="social-row">
-              <a href={data.github} target="_blank" rel="noreferrer">GitHub</a>
-              <a href={data.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-              <a href={data.leetcode} target="_blank" rel="noreferrer">LeetCode</a>
-              <a href={data.gfg} target="_blank" rel="noreferrer">GFG</a>
-              <a href={`mailto:${data.email}`}>Email</a>
-            </div>
+        {/* ══ TECH MARQUEE ══ */}
+        <div className="marquee">
+          <div className="marquee-track">
+            {[...data.marquee, ...data.marquee].map((item, i) => <MarqueeItem key={i} item={item} />)}
           </div>
-        </aside>
+        </div>
 
-        {/* ══ CONTENT ══ */}
-        <main className="content">
-          {/* ── ABOUT ── */}
-          <Section id="about" num="01" title="About">
+        {/* ══ METRICS ══ */}
+        <section className="shell section" style={{ paddingBottom: 0 }}>
+          <div className="metric-grid" ref={metricsRef}>
+            {data.metrics.map((m) => <Metric key={m.label} {...m} active={metricsOn} />)}
+          </div>
+        </section>
+
+        {/* ══ ABOUT ══ */}
+        <section id="about" className="shell section">
+          <SecHead kicker="01 · About" title="Data systems that earn trust" />
+          <div className="about-grid">
             <Reveal delay={0.05}>
               <div className="about-copy">
                 {data.about.map((p, i) => <p key={i}>{p}</p>)}
+                <div className="pull-quote">{data.pullQuote}</div>
               </div>
-              <div className="pull-quote">{data.pullQuote}</div>
-              <div className="fact-grid">
-                {data.facts.map((f) => (
-                  <div className="fact-item" key={f.label}>
-                    <div className="fact-label">{f.label}</div>
-                    <div className="fact-value">{f.value}</div>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <div className="principles">
+                {data.principles.map((p) => (
+                  <div className="principle" key={p.title}>
+                    <span className="principle-ico">{p.ico}</span>
+                    <div className="principle-title">{p.title}</div>
+                    <div className="principle-desc">{p.desc}</div>
                   </div>
-                ))}
-              </div>
-              <div className="stats-row" ref={statsRef}>
-                {data.stats.map((s) => (
-                  <StatCounter key={s.label} {...s} active={statsActive} />
                 ))}
               </div>
             </Reveal>
-          </Section>
+          </div>
+        </section>
 
-          {/* ── EXPERIENCE ── */}
-          <Section id="experience" num="02" title="Experience">
+        {/* ══ EXPERIENCE ══ */}
+        <section id="experience" className="shell section">
+          <SecHead kicker="02 · Experience" title="Two years, shipping in production" />
+          <div className="timeline">
             {data.experience.map((exp, i) => (
-              <Reveal key={exp.role} delay={i * 0.08}>
-                <div className="exp-item">
-                  <div className="exp-date">
-                    {exp.current && <span className="live" />}
-                    {exp.date}
+              <Reveal key={exp.role} delay={i * 0.06}>
+                <div className={`exp-item${exp.current ? " current" : ""}`}>
+                  <span className="exp-node" />
+                  <div className="exp-head">
+                    <span className="exp-date">
+                      {exp.current && <span className="hero-dot" />} {exp.date}
+                    </span>
+                    <span className="exp-role">{exp.role}</span>
+                    <span className="exp-company">@ {exp.company}</span>
                   </div>
-                  <div>
-                    <h3 className="exp-role">
-                      {exp.role} <span className="exp-company">· {exp.company}</span>
-                    </h3>
-                    {exp.note && <div className="exp-note">{exp.note}</div>}
-                    <ul className="exp-bullets">
-                      {exp.bullets.map((b, j) => <li key={j}>{b}</li>)}
-                    </ul>
-                  </div>
+                  {exp.note && <div className="exp-note">{exp.note}</div>}
+                  <ul className="exp-bullets">
+                    {exp.bullets.map((b, j) => <li key={j}>{b}</li>)}
+                  </ul>
                 </div>
               </Reveal>
             ))}
-          </Section>
+          </div>
+        </section>
 
-          {/* ── PROJECTS ── */}
-          <Section id="projects" num="03" title="Projects">
+        {/* ══ PROJECTS ══ */}
+        <section id="projects" className="shell section">
+          <SecHead
+            kicker="03 · Projects"
+            title="Built adversarially, on purpose"
+            sub="Side projects where I stress-test data and GenAI systems against their own failure modes — guardrails, eval gates, and drift detection are the point, not an afterthought."
+          />
+          <div className="proj-grid">
             {data.projects.map((proj, i) => (
-              <Reveal key={proj.name} delay={Math.min(i * 0.07, 0.3)}>
-                <article className="proj-card">
+              <Reveal key={proj.name} delay={Math.min(i * 0.07, 0.28)}>
+                <article
+                  className="proj-card"
+                  style={{ "--accent": proj.accent, "--accent-soft": `${proj.accent}18`, "--accent-border": `${proj.accent}55` }}
+                >
                   <div className="proj-top">
-                    <h3 className="proj-title">{proj.name}</h3>
+                    <span className="proj-ico">{proj.ico}</span>
                     <span className="proj-type">{proj.type}</span>
                   </div>
-                  <div className="proj-metrics">{proj.metrics}</div>
+                  <h3 className="proj-title">{proj.name}</h3>
+                  <div className="proj-metrics">▸ {proj.metrics}</div>
                   <p className="proj-desc">{proj.description}</p>
-                  <div className="proj-tech">
-                    {proj.tech.map((t) => <span key={t}>{t}</span>)}
-                  </div>
+                  <div className="proj-tech">{proj.tech.map((t) => <span key={t}>{t}</span>)}</div>
                   <div className="proj-links">
-                    {proj.demo && (
-                      <a className="proj-link-primary" href={proj.demo} target="_blank" rel="noreferrer">
-                        Live Demo →
-                      </a>
-                    )}
-                    <a className="proj-link-ghost" href={proj.link} target="_blank" rel="noreferrer">
-                      View Code →
-                    </a>
+                    {proj.demo && <a className="proj-link-primary" href={proj.demo} target="_blank" rel="noreferrer">Live Demo →</a>}
+                    <a className="proj-link-ghost" href={proj.link} target="_blank" rel="noreferrer">View Code →</a>
                   </div>
                 </article>
               </Reveal>
             ))}
-          </Section>
+          </div>
+        </section>
 
-          {/* ── SKILLS ── */}
-          <Section id="skills" num="04" title="Skills">
-            {data.skills.map((group, i) => (
-              <Reveal key={group.category} delay={Math.min(i * 0.05, 0.25)}>
-                <div className="skill-group">
-                  <div className="skill-group-label">{group.category}</div>
-                  <div className="skill-chips">
-                    {group.items.map((item) => <span key={item}>{item}</span>)}
+        {/* ══ SKILLS ══ */}
+        <section id="skills" className="shell section">
+          <SecHead
+            kicker="04 · Skills"
+            title="The stack I build on"
+            sub="From ingestion to serving — the tools I use across data engineering, data science, and GenAI."
+          />
+          <div className="skills-stack">
+            {data.skillGroups.map((group, gi) => (
+              <Reveal key={group.category} delay={Math.min(gi * 0.05, 0.2)}>
+                <div style={{ "--gc": group.color }}>
+                  <div className="skill-group-head">
+                    <span className="name">{group.category}</span>
+                    <span className="rule" />
+                    <span className="count">{String(group.skills.length).padStart(2, "0")}</span>
+                  </div>
+                  <div className="skill-cards">
+                    {group.skills.map((skill) => (
+                      <div className="skill-card" key={skill.name}>
+                        <SkillLogo skill={skill} />
+                        <span className="skill-name">{skill.name}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </Reveal>
             ))}
-          </Section>
+          </div>
+        </section>
 
-          {/* ── ACHIEVEMENTS ── */}
-          <Section id="achievements" num="05" title="Achievements">
-            <div className="ach-grid">
-              {data.achievements.map((a, i) => (
-                <Reveal key={a.title} delay={i * 0.07}>
-                  <div className="ach-card">
-                    <span className="ach-icon">{a.icon}</span>
-                    <div>
-                      <div className="ach-title">{a.title}</div>
-                      <div className="ach-desc">{a.desc}</div>
-                    </div>
+        {/* ══ ACHIEVEMENTS ══ */}
+        <section className="shell section" style={{ paddingTop: 0 }}>
+          <SecHead kicker="05 · Beyond work" title="Competitive programming & education" />
+          <div className="ach-grid">
+            {data.achievements.map((a, i) => (
+              <Reveal key={a.title} delay={i * 0.06}>
+                <div className="ach-card">
+                  <span className="ach-ico">{a.ico}</span>
+                  <div>
+                    <div className="ach-title">{a.title}</div>
+                    <div className="ach-desc">{a.desc}</div>
                   </div>
-                </Reveal>
-              ))}
-            </div>
-            <Reveal delay={0.15}>
-              <div className="edu-block">
-                <div>
-                  <div className="edu-degree">{data.education.degree}</div>
-                  <div className="edu-school">{data.education.school}</div>
                 </div>
-                <div className="edu-meta">{data.education.meta}</div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.12}>
+            <div className="edu-block">
+              <div>
+                <div className="edu-degree">{data.education.degree}</div>
+                <div className="edu-school">{data.education.school}</div>
               </div>
-            </Reveal>
-          </Section>
+              <div className="edu-meta">{data.education.meta}</div>
+            </div>
+          </Reveal>
+        </section>
 
-          {/* ── CONTACT ── */}
-          <Section id="contact" num="06" title="Get in touch">
-            <Reveal delay={0.05}>
-              <p className="contact-lede">
-                I&apos;m open to full-time roles in Data Engineering, Analytics Engineering, and
-                ML Engineering. If you&apos;re working on something interesting in data
-                infrastructure, GenAI evaluation, or applied ML, I&apos;d love to hear about it.
-              </p>
-              <a className="contact-email" href={`mailto:${data.email}`}>{data.email}</a>
-              <div className="contact-buttons">
-                <button className="btn-solid" onClick={copyEmail}>
-                  {copied ? "✓ Copied!" : "Copy Email"}
-                </button>
-                <a
-                  className="btn-outline"
-                  href={`https://mail.google.com/mail/?view=cm&to=${data.email}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Send Email →
-                </a>
-              </div>
+        {/* ══ CONTACT ══ */}
+        <section id="contact" className="shell section contact">
+          <SecHead kicker="06 · Contact" title="Let's build something reliable" />
+          <Reveal delay={0.05}>
+            <p className="contact-lede">
+              I&apos;m open to full-time roles in Data Engineering, Data Science, and ML Engineering. If you&apos;re
+              working on something interesting in data infrastructure, forecasting, or GenAI evaluation, I&apos;d love to hear about it.
+            </p>
+            <a className="contact-email" href={gmail} target="_blank" rel="noreferrer">{data.email}</a>
+            <div className="contact-buttons">
+              <button className="btn-solid" onClick={copyEmail}>{copied ? "✓ Copied!" : "Copy Email"}</button>
+              <a className="btn-ghost" href={gmail} target="_blank" rel="noreferrer">Send Email →</a>
+            </div>
+            <div className="roles-wrap">
               <div className="roles-label">Open to roles</div>
-              <div className="roles-chips">
-                {data.roles.map((r) => <span key={r}>{r}</span>)}
-              </div>
+              <div className="roles-chips">{data.openRoles.map((r) => <span key={r}>{r}</span>)}</div>
               <div className="roles-label">Locations</div>
-              <div className="loc-chips">
-                {data.locations.map((l) => <span key={l}>{l}</span>)}
-              </div>
-            </Reveal>
-          </Section>
+              <div className="loc-chips">{data.locations.map((l) => <span key={l}>{l}</span>)}</div>
+            </div>
+          </Reveal>
+        </section>
 
-          {/* ── FOOTER ── */}
-          <footer className="footer">
-            <span className="name">Amitabh Choudhury</span>
-            <span>·</span>
-            <span>Built with React + Vite</span>
-            <span>·</span>
-            <span>{new Date().getFullYear()}</span>
-          </footer>
-        </main>
+        {/* ══ FOOTER ══ */}
+        <footer className="shell footer">
+          <span className="name">Amitabh Choudhury</span>
+          <span>·</span>
+          <span>Built with React + Vite</span>
+          <span>·</span>
+          <span>{new Date().getFullYear()}</span>
+        </footer>
       </div>
 
-      {/* ── SCROLL TO TOP ── */}
       <button
         className={`scroll-top${showTop ? " visible" : ""}`}
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
