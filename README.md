@@ -2,24 +2,29 @@
 
 Live at **[personal-portfolio-cyan-eight-50.vercel.app](https://personal-portfolio-cyan-eight-50.vercel.app/)**
 
-A single-page portfolio built with React + Vite showcasing my work as a Data Engineer, ML Engineer, and Competitive Programmer.
+A single-page portfolio built with React + Vite showcasing my work as a Data Engineer building production data platforms and LLM systems at Caterpillar.
 
 ## Sections
 
-- **Hero** — role, stats, terminal card
-- **About** — bio, background, and what drives me
-- **Experience** — timeline at Caterpillar (Data Engineer, Systems Data Support Analyst, SDE Intern)
-- **Skills** — filterable grid across Data Engineering, GenAI, ML, Infra, and more
-- **Projects** — Text-to-SQL Guardrails · Demand Forecasting MLOps · Hybrid RAG · GitHub Archive Lakehouse
-- **Open to Roles** — target roles and locations
-- **Achievements** — LeetCode Knight (1923), Codeforces Expert, CodeChef 4★, Centurion Hackathon
-- **Contact** — email, LinkedIn, GitHub, LeetCode, GFG
+- **Sidebar** — name, role, tagline, resume download, section nav, socials
+- **About** — bio, LPAgent anomaly detection platform, facts, animated stats
+- **Experience** — Caterpillar timeline (Data Engineer, Systems Data Support Analyst, Software Engineer Intern)
+- **Projects** — Text-to-SQL Guardrails · Demand Forecasting MLOps (live demo) · Hybrid RAG (live demo) · GitHub Archive Lakehouse
+- **Skills** — grouped by AI/GenAI, ML/MLOps, Data Engineering, Languages, Analytics & BI, Infra & Dev
+- **Achievements** — LeetCode Knight (1923), Codeforces Expert, CodeChef 4★, Centurion Hackathon + Education
+- **Contact** — email, open-to roles and locations
+
+## Design
+
+- Sticky sidebar + scrolling content layout
+- Warm charcoal + amber palette with a mouse-following spotlight
+- Google Fonts: Space Grotesk, JetBrains Mono, Inter
+- Scroll-reveal animations via IntersectionObserver
 
 ## Tech Stack
 
 - React 19 + Vite
-- CSS (inline styles + App.css)
-- Google Fonts: Playfair Display, DM Mono, Inter
+- Plain CSS (App.css, CSS variables)
 - Deployed on Vercel
 
 ## Run locally
