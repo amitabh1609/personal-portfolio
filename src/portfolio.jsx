@@ -107,6 +107,7 @@ const data = {
     {
       name: "Text-to-SQL with Guardrails & Hallucination Detection",
       type: "AI / Safety",
+      featured: true,
       ico: "🛡️",
       accent: "#a78bfa",
       metrics: "100% guardrail block rate · 10/10 injection tests · 50-question adversarial benchmark",
@@ -362,6 +363,25 @@ function MarqueeItem({ item }) {
   );
 }
 
+function GithubGraph() {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null; // ponytail: third-party chart service; hide the card if it's down
+  return (
+    <div className="gh-card">
+      <div className="gh-head">
+        <span className="gh-title">Contribution activity</span>
+        <a href={data.github} target="_blank" rel="noreferrer">@amitabh1609 →</a>
+      </div>
+      <img
+        src="https://ghchart.rshah.org/22d3ee/amitabh1609"
+        alt="GitHub contribution graph for amitabh1609"
+        loading="lazy"
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+}
+
 function Metric({ value, suffix, label, decimals, active }) {
   const n = useCountUp(value, decimals, active);
   return (
@@ -381,6 +401,7 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showTop, setShowTop] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [mouse, setMouse] = useState({ x: -500, y: -500 });
   const [metricsOn, setMetricsOn] = useState(false);
   const metricsRef = useRef(null);
@@ -396,6 +417,8 @@ export default function Portfolio() {
     const h = () => {
       setScrolled(window.scrollY > 20);
       setShowTop(window.scrollY > 520);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? window.scrollY / max : 0);
     };
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
@@ -442,6 +465,7 @@ export default function Portfolio() {
       />
 
       {/* ══ NAV ══ */}
+      <div className="scroll-progress" style={{ transform: `scaleX(${progress})` }} />
       <nav className={`nav${scrolled ? " scrolled" : ""}`}>
         <a className="nav-logo" href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
           <span className="bracket">{"{"}</span>amitabh<span className="bracket">{"}"}</span>
@@ -452,7 +476,7 @@ export default function Portfolio() {
               {n.label}
             </button>
           ))}
-          <a className="nav-resume" href="/resume.pdf" download target="_blank" rel="noreferrer">Résumé ↓</a>
+          <a className="nav-resume" href="/Amitabh_Choudhury.pdf" download="Amitabh_Choudhury.pdf">Resume ↓</a>
         </div>
         <button className={`nav-toggle${menuOpen ? " open" : ""}`} onClick={() => setMenuOpen((o) => !o)} aria-label="Menu">
           <span /><span /><span />
@@ -460,7 +484,7 @@ export default function Portfolio() {
       </nav>
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
         {NAV.map((n) => <button key={n.id} onClick={() => scrollTo(n.id)}>{n.label}</button>)}
-        <a href="/resume.pdf" download target="_blank" rel="noreferrer">Résumé ↓</a>
+        <a href="/Amitabh_Choudhury.pdf" download="Amitabh_Choudhury.pdf">Resume ↓</a>
       </div>
 
       <div className="wrap" id="top">
@@ -476,7 +500,7 @@ export default function Portfolio() {
               <p className="hero-tagline">{data.tagline}</p>
               <div className="hero-cta">
                 <button className="btn-solid" onClick={() => scrollTo("projects")}>View Projects →</button>
-                <a className="btn-ghost" href="/resume.pdf" download target="_blank" rel="noreferrer">Download Résumé ↓</a>
+                <a className="btn-ghost" href="/Amitabh_Choudhury.pdf" download="Amitabh_Choudhury.pdf">Download Resume ↓</a>
               </div>
               <div className="hero-socials">
                 <a href={data.github} target="_blank" rel="noreferrer">GitHub</a>
@@ -594,7 +618,10 @@ export default function Portfolio() {
                 >
                   <div className="proj-top">
                     <span className="proj-ico">{proj.ico}</span>
-                    <span className="proj-type">{proj.type}</span>
+                    <span style={{ display: "flex", gap: "0.4rem" }}>
+                      {proj.featured && <span className="proj-featured">★ Featured</span>}
+                      <span className="proj-type">{proj.type}</span>
+                    </span>
                   </div>
                   <h3 className="proj-title">{proj.name}</h3>
                   <div className="proj-metrics">▸ {proj.metrics}</div>
@@ -656,6 +683,9 @@ export default function Portfolio() {
               </Reveal>
             ))}
           </div>
+          <Reveal delay={0.1}>
+            <GithubGraph />
+          </Reveal>
           <Reveal delay={0.12}>
             <div className="edu-block">
               <div>
